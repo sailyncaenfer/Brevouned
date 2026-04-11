@@ -1,2167 +1,1897 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+<!DOCTYPE html>
+<html lang="en">
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0
-  }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Suitfall</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1a1a26;
-    --surface3: #22223a;
-    --border: #2a2a42;
-    --border2: #3a3a58;
-    --text: #e8e4d8;
-    --text2: #a09898;
-    --text3: #6a6480;
-    --spade: #c8a2c8;
-    --diamond: #e86060;
-    --club: #7ec8a8;
-    --heart: #e87070;
-    --gold: #c8a850;
-    --gold2: #e8c870;
-    --hp-green: #4aaa60;
-    --hp-red: #cc3344;
-  }
-
-  @keyframes bg-drift {
-
-    0%,
-    100% {
-      background-position: 0% 50%
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
     }
 
-    50% {
-      background-position: 100% 50%
-    }
-  }
-
-  @keyframes title-glow {
-
-    0%,
-    100% {
-      filter: drop-shadow(0 0 12px rgba(232, 200, 112, 0.25));
-      letter-spacing: 4px
-    }
-
-    50% {
-      filter: drop-shadow(0 0 22px rgba(232, 200, 112, 0.45));
-      letter-spacing: 5px
-    }
-  }
-
-  @keyframes fade-rise {
-    from {
-      opacity: 0;
-      transform: translateY(16px)
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1a1a26;
+      --surface3: #22223a;
+      --border: #2a2a42;
+      --border2: #3a3a58;
+      --text: #e8e4d8;
+      --text2: #a09898;
+      --text3: #6a6480;
+      --spade: #c8a2c8;
+      --diamond: #e86060;
+      --club: #7ec8a8;
+      --heart: #e87070;
+      --gold: #c8a850;
+      --gold2: #e8c870;
+      --hp-green: #4aaa60;
+      --hp-red: #cc3344;
     }
 
-    to {
-      opacity: 1;
-      transform: translateY(0)
-    }
-  }
+    @keyframes bg-drift {
 
-  @keyframes mode-stagger {
-    from {
-      opacity: 0;
-      transform: translateY(24px) scale(0.96)
-    }
+      0%,
+      100% {
+        background-position: 0% 50%
+      }
 
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1)
-    }
-  }
-
-  @keyframes card-deal {
-    from {
-      opacity: 0;
-      transform: translateY(28px) rotate(-4deg) scale(0.85)
+      50% {
+        background-position: 100% 50%
+      }
     }
 
-    to {
-      opacity: 1;
-      transform: translateY(0) rotate(0) scale(1)
-    }
-  }
+    @keyframes title-glow {
 
-  @keyframes card-reorder {
-    0% {
-      transform: translateY(8px) scale(0.96);
-      opacity: 0.7
-    }
+      0%,
+      100% {
+        filter: drop-shadow(0 0 12px rgba(232, 200, 112, .25));
+        letter-spacing: 4px
+      }
 
-    60% {
-      transform: translateY(-2px) scale(1.02);
-      opacity: 1
+      50% {
+        filter: drop-shadow(0 0 22px rgba(232, 200, 112, .45));
+        letter-spacing: 5px
+      }
     }
 
-    100% {
-      transform: translateY(0) scale(1)
-    }
-  }
+    @keyframes fade-rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
 
-  @keyframes drag-lift {
-    from {
-      transform: translateY(0) scale(1) rotateX(0deg)
-    }
-
-    to {
-      transform: translateY(-10px) scale(1.04) rotateX(5deg)
-    }
-  }
-
-  @keyframes drop-settle {
-    0% {
-      transform: translateY(-8px) scale(1.03)
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
 
-    70% {
-      transform: translateY(2px) scale(0.99)
+    @keyframes mode-stagger {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(.96)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+      }
     }
 
-    100% {
-      transform: translateY(0) scale(1)
-    }
-  }
+    @keyframes card-deal {
+      from {
+        opacity: 0;
+        transform: translateY(28px) rotate(-4deg) scale(.85)
+      }
 
-  @keyframes enemy-appear {
-    from {
-      opacity: 0;
-      transform: scale(0.9) translateY(8px)
-    }
-
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0)
-    }
-  }
-
-  @keyframes selected-pulse {
-
-    0%,
-    100% {
-      box-shadow: 0 4px 12px rgba(200, 168, 80, 0.25), 0 0 0 0 rgba(232, 200, 112, 0.35)
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0) scale(1)
+      }
     }
 
-    50% {
-      box-shadow: 0 6px 18px rgba(200, 168, 80, 0.4), 0 0 0 6px rgba(232, 200, 112, 0.12)
-    }
-  }
+    @keyframes card-reorder {
+      0% {
+        transform: translateY(8px) scale(.96);
+        opacity: .7
+      }
 
-  @keyframes target-pulse {
+      60% {
+        transform: translateY(-2px) scale(1.02);
+        opacity: 1
+      }
 
-    0%,
-    100% {
-      border-color: var(--diamond);
-      box-shadow: 0 0 0 0 rgba(232, 96, 96, 0.25)
-    }
-
-    50% {
-      border-color: #ff8080;
-      box-shadow: 0 0 0 4px rgba(232, 96, 96, 0.2)
-    }
-  }
-
-  @keyframes phase-active-glow {
-
-    0%,
-    100% {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 0 rgba(200, 168, 80, 0.15)
+      100% {
+        transform: translateY(0) scale(1)
+      }
     }
 
-    50% {
-      box-shadow: 0 0 12px rgba(200, 168, 80, 0.25)
-    }
-  }
+    @keyframes drag-lift {
+      from {
+        transform: translateY(0) scale(1) rotateX(0deg)
+      }
 
-  @keyframes hp-shake {
-
-    0%,
-    100% {
-      transform: translateX(0)
+      to {
+        transform: translateY(-10px) scale(1.04) rotateX(5deg)
+      }
     }
 
-    20% {
-      transform: translateX(-6px)
+    @keyframes drop-settle {
+      0% {
+        transform: translateY(-8px) scale(1.03)
+      }
+
+      70% {
+        transform: translateY(2px) scale(.99)
+      }
+
+      100% {
+        transform: translateY(0) scale(1)
+      }
     }
 
-    40% {
-      transform: translateX(6px)
+    @keyframes enemy-appear {
+      from {
+        opacity: 0;
+        transform: scale(.9) translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+      }
     }
 
-    60% {
-      transform: translateX(-4px)
+    @keyframes selected-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 12px rgba(200, 168, 80, .25), 0 0 0 0 rgba(232, 200, 112, .35)
+      }
+
+      50% {
+        box-shadow: 0 6px 18px rgba(200, 168, 80, .4), 0 0 0 6px rgba(232, 200, 112, .12)
+      }
     }
 
-    80% {
-      transform: translateX(4px)
-    }
-  }
+    @keyframes target-pulse {
 
-  @keyframes hp-damage-flash {
+      0%,
+      100% {
+        border-color: var(--diamond);
+        box-shadow: 0 0 0 0 rgba(232, 96, 96, .25)
+      }
 
-    0%,
-    100% {
-      filter: brightness(1)
-    }
-
-    30% {
-      filter: brightness(1.4) saturate(1.3)
-    }
-  }
-
-  @keyframes hp-heal-flash {
-
-    0%,
-    100% {
-      filter: brightness(1);
-      box-shadow: none
+      50% {
+        border-color: #ff8080;
+        box-shadow: 0 0 0 4px rgba(232, 96, 96, .2)
+      }
     }
 
-    40% {
-      filter: brightness(1.15);
-      box-shadow: 0 0 16px rgba(126, 200, 168, 0.45)
-    }
-  }
+    @keyframes phase-active-glow {
 
-  @keyframes overlay-in {
-    from {
-      opacity: 0
-    }
+      0%,
+      100% {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 0 rgba(200, 168, 80, .15)
+      }
 
-    to {
-      opacity: 1
-    }
-  }
-
-  @keyframes modal-pop {
-    from {
-      opacity: 0;
-      transform: scale(0.92) translateY(20px)
+      50% {
+        box-shadow: 0 0 12px rgba(200, 168, 80, .25)
+      }
     }
 
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0)
+    @keyframes hp-shake {
+
+      0%,
+      100% {
+        transform: translateX(0)
+      }
+
+      20% {
+        transform: translateX(-6px)
+      }
+
+      40% {
+        transform: translateX(6px)
+      }
+
+      60% {
+        transform: translateX(-4px)
+      }
+
+      80% {
+        transform: translateX(4px)
+      }
     }
-  }
 
-  @keyframes log-line-in {
-    from {
-      opacity: 0;
-      transform: translateX(-8px)
+    @keyframes hp-damage-flash {
+
+      0%,
+      100% {
+        filter: brightness(1)
+      }
+
+      30% {
+        filter: brightness(1.4) saturate(1.3)
+      }
     }
 
-    to {
-      opacity: 1;
-      transform: translateX(0)
+    @keyframes hp-heal-flash {
+
+      0%,
+      100% {
+        filter: brightness(1);
+        box-shadow: none
+      }
+
+      40% {
+        filter: brightness(1.15);
+        box-shadow: 0 0 16px rgba(126, 200, 168, .45)
+      }
     }
-  }
 
-  @keyframes btn-glow {
-    from {
-      box-shadow: 0 0 0 0 rgba(200, 168, 80, 0.35)
+    @keyframes overlay-in {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
     }
 
-    to {
-      box-shadow: 0 0 0 8px rgba(200, 168, 80, 0)
+    @keyframes modal-pop {
+      from {
+        opacity: 0;
+        transform: scale(.92) translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+      }
     }
-  }
 
-  body {
-    background: var(--bg);
-    background-image:
-      radial-gradient(ellipse 120% 80% at 20% -20%, rgba(200, 168, 80, 0.08), transparent 50%),
-      radial-gradient(ellipse 100% 60% at 100% 50%, rgba(200, 100, 160, 0.06), transparent 45%),
-      radial-gradient(ellipse 80% 50% at 0% 100%, rgba(80, 140, 200, 0.05), transparent 40%);
-    background-size: 200% 200%;
-    animation: bg-drift 18s ease-in-out infinite;
-    color: var(--text);
-    font-family: 'Crimson Pro', serif;
-    min-height: 100vh;
-    overflow-x: hidden
-  }
+    @keyframes log-line-in {
+      from {
+        opacity: 0;
+        transform: translateX(-8px)
+      }
 
-  @media (prefers-reduced-motion:reduce) {
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    @keyframes btn-glow {
+      from {
+        box-shadow: 0 0 0 0 rgba(200, 168, 80, .35)
+      }
+
+      to {
+        box-shadow: 0 0 0 8px rgba(200, 168, 80, 0)
+      }
+    }
+
+    @keyframes hp-shimmer {
+
+      0%,
+      100% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+    }
+
     body {
-      animation: none;
-      background-size: auto
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 120% 80% at 20% -20%, rgba(200, 168, 80, .08), transparent 50%),
+        radial-gradient(ellipse 100% 60% at 100% 50%, rgba(200, 100, 160, .06), transparent 45%),
+        radial-gradient(ellipse 80% 50% at 0% 100%, rgba(80, 140, 200, .05), transparent 40%);
+      background-size: 200% 200%;
+      animation: bg-drift 18s ease-in-out infinite;
+      color: var(--text);
+      font-family: 'Crimson Pro', serif;
+      min-height: 100vh;
+      overflow-x: hidden
     }
 
-    .card.card--new,
-    .card.card--reorder,
-    .card.drop-settle,
-    .enemy-card.enemy--new,
-    .log-entry,
-    .overlay,
-    .modal,
-    .start-screen h1,
-    .mode-card,
-    .title-bar h1,
-    .phase-step.active,
+    @media(prefers-reduced-motion:reduce) {
+      body {
+        animation: none;
+        background-size: auto
+      }
+
+      .card.card--new,
+      .card.card--reorder,
+      .card.drop-settle,
+      .enemy-card.enemy--new,
+      .log-entry,
+      .overlay,
+      .modal,
+      .start-screen h1,
+      .mode-card,
+      .title-bar h1,
+      .phase-step.active,
+      .hp-fill {
+        animation: none !important
+      }
+
+      .card.selected,
+      .enemy-card.targeted {
+        animation: none !important
+      }
+    }
+
+    h1,
+    h2,
+    h3,
+    .btn {
+      font-family: 'Cinzel', serif
+    }
+
+    .game-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 1rem;
+      transition: transform .12s ease-out
+    }
+
+    .game-wrap.hud-shake {
+      animation: hp-shake .45s ease-out
+    }
+
+    .title-bar {
+      text-align: center;
+      padding: 1rem 0 .5rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .title-bar h1 {
+      font-size: 2rem;
+      color: var(--gold2);
+      letter-spacing: 3px;
+      animation: title-glow 4s ease-in-out infinite
+    }
+
+    .title-bar p {
+      font-size: .85rem;
+      color: var(--text3);
+      letter-spacing: 1px;
+      margin-top: 3px
+    }
+
+    .hud {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .hp-bar-wrap {
+      flex: 1;
+      min-width: 180px;
+      border-radius: 6px;
+      transition: filter .3s ease, box-shadow .3s ease
+    }
+
+    .hp-bar-wrap.hp-damage {
+      animation: hp-damage-flash .5s ease-out
+    }
+
+    .hp-bar-wrap.hp-heal {
+      animation: hp-heal-flash .65s ease-out
+    }
+
+    .hp-label {
+      font-size: .75rem;
+      color: var(--text3);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between
+    }
+
+    .hp-bar {
+      height: 10px;
+      background: var(--surface3);
+      border-radius: 5px;
+      overflow: hidden;
+      border: 1px solid var(--border)
+    }
+
     .hp-fill {
-      animation: none !important
+      height: 100%;
+      background: linear-gradient(90deg, var(--hp-red), var(--gold2) 45%, var(--hp-green));
+      background-size: 200% 100%;
+      transition: width .55s cubic-bezier(.4, 0, .2, 1);
+      border-radius: 5px;
+      animation: hp-shimmer 3s ease-in-out infinite
     }
 
-    .card.selected,
+    .hud-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: .8rem;
+      color: var(--text2)
+    }
+
+    .hud-stat {
+      text-align: center
+    }
+
+    .hud-stat strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--text);
+      font-family: 'Cinzel', serif
+    }
+
+    .mode-badge {
+      font-size: .7rem;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Cinzel', serif
+    }
+
+    .phase-bar {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .5rem 0;
+      font-size: .75rem;
+      color: var(--text3);
+      letter-spacing: 1px
+    }
+
+    .phase-step {
+      padding: 3px 10px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      transition: all .25s ease
+    }
+
+    .phase-step.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(200, 168, 80, .08);
+      animation: phase-active-glow 2.2s ease-in-out infinite
+    }
+
+    .phase-sep {
+      color: var(--border2)
+    }
+
+    .section {
+      margin: .75rem 0
+    }
+
+    .section-title {
+      font-size: .7rem;
+      letter-spacing: 2px;
+      color: var(--text3);
+      margin-bottom: .5rem;
+      font-family: 'Cinzel', serif
+    }
+
+    .card-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 90px;
+      padding: .5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      perspective: 800px
+    }
+
+    .card {
+      width: 60px;
+      height: 85px;
+      border-radius: 6px;
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform .22s cubic-bezier(.34, 1.3, .64, 1), border-color .2s, background .2s, box-shadow .25s;
+      user-select: none;
+      flex-shrink: 0;
+      transform-style: preserve-3d
+    }
+
+    .card:hover {
+      border-color: var(--gold);
+      background: var(--surface3);
+      box-shadow: 0 0 0 1px rgba(200, 168, 80, .2) inset
+    }
+
+    .card.selected {
+      border-color: var(--gold2);
+      background: var(--surface3);
+      transform: translateY(-8px) rotateX(2deg);
+      animation: selected-pulse 1.8s ease-in-out infinite
+    }
+
+    .card.card--new {
+      animation: card-deal .5s cubic-bezier(.34, 1.4, .64, 1) both;
+      animation-delay: var(--deal-delay, 0s)
+    }
+
+    .card.unavailable {
+      opacity: .35;
+      cursor: not-allowed
+    }
+
+    .card.unavailable.card--new {
+      animation: card-deal 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+      opacity: 0.35;
+    }
+
+    .card.unavailable:hover {
+      transform: none;
+      border-color: var(--border2)
+    }
+
+    .card.can-drag {
+      cursor: grab
+    }
+
+    .card.dragging {
+      opacity: .72;
+      z-index: 2;
+      animation: drag-lift .18s ease-out forwards;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, .4)
+    }
+
+    .card.drag-over {
+      border-color: var(--gold2);
+      box-shadow: 0 0 0 2px rgba(232, 200, 112, .25) inset, 0 8px 18px rgba(232, 200, 112, .16)
+    }
+
+    .card-row.drag-active {
+      gap: 12px
+    }
+
+    .card-row.drag-active .card {
+      transition: transform .16s ease, margin .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease
+    }
+
+    .card-row.drag-active .card.drag-over {
+      margin-left: 26px
+    }
+
+    .card.drop-settle {
+      animation: drop-settle .32s cubic-bezier(.34, 1.2, .64, 1) both
+    }
+
+    .card.card--reorder {
+      animation: card-reorder .26s ease-out both;
+      animation-delay: var(--reorder-delay, 0s)
+    }
+
+    .drag-proxy {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 1000;
+      pointer-events: none;
+      width: 60px;
+      height: 85px;
+      border-radius: 6px;
+      border: 1px solid var(--gold2);
+      background: var(--surface3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, .5), 0 0 0 1px rgba(232, 200, 112, .35);
+      transform: translate(-9999px, -9999px) scale(1.04) rotate(-2deg)
+    }
+
+    .card-val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1
+    }
+
+    .card-suit {
+      font-size: 1.3rem;
+      margin-top: 2px
+    }
+
+    .card-suit.s,
+    .card-val.s {
+      color: var(--spade)
+    }
+
+    .card-suit.d,
+    .card-val.d {
+      color: var(--diamond)
+    }
+
+    .card-suit.c,
+    .card-val.c {
+      color: var(--club)
+    }
+
+    .card-suit.h,
+    .card-val.h {
+      color: var(--heart)
+    }
+
+    .card-suit.u,
+    .card-val.u {
+      color: var(--text3)
+    }
+
+    .enemy-wrap {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .enemy-card {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: .6rem .8rem;
+      min-width: 110px;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s, background .2s, opacity .45s ease, box-shadow .25s
+    }
+
+    .enemy-card:hover:not(.defeated) {
+      border-color: var(--spade);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(200, 162, 200, .12)
+    }
+
     .enemy-card.targeted {
-      animation: none !important
-    }
-  }
-
-  h1,
-  h2,
-  h3,
-  .btn {
-    font-family: 'Cinzel', serif
-  }
-
-  .game-wrap {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 1rem;
-    transition: transform 0.12s ease-out
-  }
-
-  .game-wrap.hud-shake {
-    animation: hp-shake 0.45s ease-out
-  }
-
-  .title-bar {
-    text-align: center;
-    padding: 1rem 0 0.5rem;
-    border-bottom: 1px solid var(--border)
-  }
-
-  .title-bar h1 {
-    font-size: 2rem;
-    color: var(--gold2);
-    letter-spacing: 3px;
-    animation: title-glow 4s ease-in-out infinite
-  }
-
-  .title-bar p {
-    font-size: 0.85rem;
-    color: var(--text3);
-    letter-spacing: 1px;
-    margin-top: 3px
-  }
-
-  .hud {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border);
-    gap: 1rem;
-    flex-wrap: wrap
-  }
-
-  .hp-bar-wrap {
-    flex: 1;
-    min-width: 180px;
-    border-radius: 6px;
-    transition: filter 0.3s ease, box-shadow 0.3s ease
-  }
-
-  .hp-bar-wrap.hp-damage {
-    animation: hp-damage-flash 0.5s ease-out
-  }
-
-  .hp-bar-wrap.hp-heal {
-    animation: hp-heal-flash 0.65s ease-out
-  }
-
-  .hp-label {
-    font-size: 0.75rem;
-    color: var(--text3);
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-    display: flex;
-    justify-content: space-between
-  }
-
-  .hp-bar {
-    height: 10px;
-    background: var(--surface3);
-    border-radius: 5px;
-    overflow: hidden;
-    border: 1px solid var(--border)
-  }
-
-  .hp-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--hp-red), var(--gold2) 45%, var(--hp-green));
-    background-size: 200% 100%;
-    transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 5px;
-    animation: hp-shimmer 3s ease-in-out infinite
-  }
-
-  @keyframes hp-shimmer {
-
-    0%,
-    100% {
-      background-position: 0% 50%
+      border-color: var(--diamond);
+      background: rgba(232, 96, 96, .08);
+      animation: target-pulse 1.2s ease-in-out infinite
     }
 
-    50% {
-      background-position: 100% 50%
+    .enemy-card.defeated {
+      opacity: .35;
+      border-color: var(--border);
+      cursor: default;
+      transform: scale(.94);
+      filter: grayscale(.35)
     }
-  }
-
-  .hud-stats {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.8rem;
-    color: var(--text2)
-  }
-
-  .hud-stat {
-    text-align: center
-  }
-
-  .hud-stat strong {
-    display: block;
-    font-size: 1.1rem;
-    color: var(--text);
-    font-family: 'Cinzel', serif
-  }
-
-  .mode-badge {
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    padding: 3px 8px;
-    border-radius: 3px;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Cinzel', serif
-  }
-
-  .phase-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0;
-    font-size: 0.75rem;
-    color: var(--text3);
-    letter-spacing: 1px
-  }
-
-  .phase-step {
-    padding: 3px 10px;
-    border-radius: 3px;
-    border: 1px solid var(--border);
-    transition: all 0.25s ease
-  }
-
-  .phase-step.active {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: rgba(200, 168, 80, 0.08);
-    animation: phase-active-glow 2.2s ease-in-out infinite
-  }
-
-  .phase-sep {
-    color: var(--border2)
-  }
-
-  .section {
-    margin: 0.75rem 0
-  }
-
-  .section-title {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    color: var(--text3);
-    margin-bottom: 0.5rem;
-    font-family: 'Cinzel', serif
-  }
-
-  .card-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    min-height: 90px;
-    padding: 0.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    perspective: 800px
-  }
-
-  .card {
-    width: 60px;
-    height: 85px;
-    border-radius: 6px;
-    border: 1px solid var(--border2);
-    background: var(--surface2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.22s cubic-bezier(0.34, 1.3, 0.64, 1), border-color 0.2s, background 0.2s, box-shadow 0.25s;
-    user-select: none;
-    flex-shrink: 0;
-    transform-style: preserve-3d
-  }
-
-  .card:hover {
-    border-color: var(--gold);
-    background: var(--surface3);
-    box-shadow: 0 0 0 1px rgba(200, 168, 80, 0.2) inset
-  }
-
-  .card.selected {
-    border-color: var(--gold2);
-    background: var(--surface3);
-    transform: translateY(-8px) rotateX(2deg);
-    animation: selected-pulse 1.8s ease-in-out infinite
-  }
-
-  .card.card--new {
-    animation: card-deal 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both;
-    animation-delay: var(--deal-delay, 0s)
-  }
-
-  .card.unavailable {
-    opacity: 0.35;
-    cursor: not-allowed
-  }
-
-  .card.unavailable:hover {
-    transform: none;
-    border-color: var(--border2)
-  }
-
-  .card.can-drag {
-    cursor: grab
-  }
-
-  .card.dragging {
-    opacity: 0.72;
-    z-index: 2;
-    animation: drag-lift 0.18s ease-out forwards;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.4)
-  }
-
-  .card.drag-over {
-    border-color: var(--gold2);
-    box-shadow: 0 0 0 2px rgba(232, 200, 112, 0.25) inset, 0 8px 18px rgba(232, 200, 112, 0.16)
-  }
-
-  .card-row.drag-active {
-    gap: 12px
-  }
-
-  .card-row.drag-active .card {
-    transition: transform 0.16s ease, margin 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease
-  }
-
-  .card-row.drag-active .card.drag-over {
-    margin-left: 26px
-  }
-
-  .card.drop-settle {
-    animation: drop-settle 0.32s cubic-bezier(0.34, 1.2, 0.64, 1) both
-  }
-
-  .card.card--reorder {
-    animation: card-reorder 0.26s ease-out both;
-    animation-delay: var(--reorder-delay, 0s)
-  }
-
-  .drag-proxy {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-    pointer-events: none;
-    width: 60px;
-    height: 85px;
-    border-radius: 6px;
-    border: 1px solid var(--gold2);
-    background: var(--surface3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 200, 112, 0.35);
-    transform: translate(-9999px, -9999px) scale(1.04) rotate(-2deg);
-  }
-
-  .card-val {
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1
-  }
-
-  .card-suit {
-    font-size: 1.3rem;
-    margin-top: 2px
-  }
-
-  .card-suit.s,
-  .card-val.s {
-    color: var(--spade)
-  }
-
-  .card-suit.d,
-  .card-val.d {
-    color: var(--diamond)
-  }
-
-  .card-suit.c,
-  .card-val.c {
-    color: var(--club)
-  }
-
-  .card-suit.h,
-  .card-val.h {
-    color: var(--heart)
-  }
-
-  .card-suit.u,
-  .card-val.u {
-    color: var(--text3)
-  }
-
-  .enemy-wrap {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap
-  }
-
-  .enemy-card {
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    padding: 0.6rem 0.8rem;
-    min-width: 110px;
-    cursor: pointer;
-    transition: transform 0.2s ease, border-color 0.2s, background 0.2s, opacity 0.45s ease, box-shadow 0.25s
-  }
-
-  .enemy-card:hover:not(.defeated) {
-    border-color: var(--spade);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(200, 162, 200, 0.12)
-  }
-
-  .enemy-card.targeted {
-    border-color: var(--diamond);
-    background: rgba(232, 96, 96, 0.08);
-    animation: target-pulse 1.2s ease-in-out infinite
-  }
-
-  .enemy-card.defeated {
-    opacity: 0.35;
-    border-color: var(--border);
-    cursor: default;
-    transform: scale(0.94);
-    filter: grayscale(0.35)
-  }
-
-  .enemy-card.enemy--new {
-    animation: enemy-appear 0.45s cubic-bezier(0.34, 1.2, 0.64, 1) both;
-    animation-delay: var(--enemy-delay, 0s)
-  }
-
-  .enemy-name {
-    font-size: 0.7rem;
-    color: var(--text3);
-    letter-spacing: 1px;
-    font-family: 'Cinzel', serif
-  }
-
-  .enemy-val {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--spade);
-    font-family: 'Cinzel', serif;
-    line-height: 1
-  }
-
-  .enemy-stats {
-    font-size: 0.72rem;
-    color: var(--text2);
-    margin-top: 3px
-  }
-
-  .assign-info {
-    font-size: 0.72rem;
-    color: var(--gold);
-    margin-top: 3px
-  }
-
-  .action-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.75rem;
-    margin: 0.75rem 0;
-    font-size: 0.85rem
-  }
-
-  .action-panel p {
-    color: var(--text2);
-    margin-bottom: 0.5rem
-  }
-
-  .action-btns {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap
-  }
-
-  .btn {
-    padding: 6px 14px;
-    border-radius: 4px;
-    border: 1px solid var(--border2);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-    transition: transform 0.18s ease, border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
-    font-family: 'Cinzel', serif;
-    position: relative;
-    overflow: hidden
-  }
-
-  .btn:hover:not(.off) {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: rgba(200, 168, 80, 0.05);
-    transform: translateY(-1px)
-  }
-
-  .btn:active:not(.off) {
-    transform: translateY(0) scale(0.98)
-  }
-
-  .btn.primary {
-    border-color: var(--gold);
-    color: var(--gold)
-  }
-
-  .btn.primary:hover:not(.off) {
-    background: rgba(200, 168, 80, 0.12);
-    animation: btn-glow 0.6s ease-out
-  }
-
-  .btn.danger {
-    border-color: var(--diamond);
-    color: var(--diamond)
-  }
-
-  .btn.danger:hover {
-    background: rgba(232, 96, 96, 0.08)
-  }
-
-  .btn.off {
-    opacity: 0.3;
-    cursor: not-allowed;
-    pointer-events: none
-  }
-
-  .log-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 0.75rem;
-    max-height: 130px;
-    overflow-y: auto;
-    font-size: 0.78rem
-  }
-
-  .log-entry {
-    padding: 2px 0;
-    border-bottom: 1px solid var(--surface3);
-    color: var(--text2);
-    line-height: 1.5;
-    animation: log-line-in 0.35s ease-out both
-  }
-
-  .log-entry:nth-child(1) {
-    animation-delay: 0s
-  }
-
-  .log-entry:nth-child(2) {
-    animation-delay: 0.03s
-  }
-
-  .log-entry:nth-child(3) {
-    animation-delay: 0.06s
-  }
-
-  .log-entry:nth-child(4) {
-    animation-delay: 0.09s
-  }
-
-  .log-entry:nth-child(5) {
-    animation-delay: 0.12s
-  }
-
-  .log-entry:last-child {
-    border-bottom: none
-  }
-
-  .log-entry.good {
-    color: var(--club)
-  }
-
-  .log-entry.bad {
-    color: var(--heart)
-  }
-
-  .log-entry.neutral {
-    color: var(--gold)
-  }
-
-  .log-entry.enemy {
-    color: var(--spade)
-  }
-
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    animation: overlay-in 0.35s ease-out
-  }
-
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    max-width: 380px;
-    width: 90%;
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(200, 168, 80, 0.15);
-    animation: modal-pop 0.45s cubic-bezier(0.34, 1.2, 0.64, 1) both
-  }
-
-  .modal h2 {
-    font-size: 1.6rem;
-    color: var(--gold2);
-    margin-bottom: 0.5rem;
-    animation: title-glow 3s ease-in-out infinite
-  }
-
-  .modal p {
-    color: var(--text2);
-    font-size: 0.9rem;
-    margin-bottom: 1rem
-  }
-
-  .modal .big-num {
-    font-size: 3rem;
-    color: var(--text);
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    line-height: 1;
-    margin: 0.5rem 0
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 1rem
-  }
-
-  .continue-wrap {
-    margin: 0.5rem 0 1.25rem
-  }
-
-  .menu-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0.25rem 0 1.25rem
-  }
-
-  .mods-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1rem;
-    text-align: left
-  }
-
-  .mods-box h3 {
-    color: var(--gold);
-    font-size: 0.9rem;
-    margin: 0.25rem 0 0.5rem;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 1px
-  }
-
-  .mods-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px
-  }
-
-  .mod-item {
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    padding: 0.75rem;
-    background: var(--surface2)
-  }
-
-  .mod-item strong {
-    font-family: 'Cinzel', serif;
-    color: var(--text);
-    letter-spacing: 1px
-  }
-
-  .mod-tag {
-    display: inline-block;
-    margin-left: 6px;
-    font-size: 0.7rem;
-    border: 1px solid var(--border2);
-    border-radius: 4px;
-    padding: 1px 6px;
-    color: var(--text3)
-  }
-
-  .mod-desc {
-    font-size: 0.8rem;
-    color: var(--text2);
-    line-height: 1.55;
-    margin-top: 4px
-  }
-
-  .mod-type {
-    font-size: 0.72rem;
-    color: var(--text3);
-    letter-spacing: 1px;
-    margin-bottom: 6px
-  }
-
-  .mod-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px
-  }
-
-  .mod-row input {
-    margin-top: 4px
-  }
-
-  .tooltip {
-    font-size: 0.72rem;
-    color: var(--text3);
-    font-style: italic;
-    margin-top: 6px
-  }
-
-  .suit-legend {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.78rem;
-    flex-wrap: wrap;
-    margin: 0.5rem 0
-  }
-
-  .sl {
-    display: flex;
-    align-items: center;
-    gap: 4px
-  }
-
-  .start-screen {
-    text-align: center;
-    padding: 3rem 1rem
-  }
-
-  .start-screen h1 {
-    font-size: 2.5rem;
-    color: var(--gold2);
-    letter-spacing: 4px;
-    margin-bottom: 0.5rem;
-    animation: fade-rise 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) both, title-glow 4s ease-in-out 0.8s infinite
-  }
-
-  .start-screen>p {
-    color: var(--text2);
-    margin-bottom: 2rem;
-    font-size: 1rem;
-    line-height: 1.7;
-    animation: fade-rise 0.7s 0.12s cubic-bezier(0.34, 1.2, 0.64, 1) both
-  }
-
-  .start-screen .suit-legend {
-    animation: fade-rise 0.65s 0.2s cubic-bezier(0.34, 1.2, 0.64, 1) both
-  }
-
-  .mode-cards {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem
-  }
-
-  .mode-card {
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    padding: 1.5rem;
-    width: 200px;
-    cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1), border-color 0.2s, background 0.2s, box-shadow 0.25s;
-    background: var(--surface);
-    opacity: 0;
-    animation: mode-stagger 0.65s cubic-bezier(0.34, 1.2, 0.64, 1) forwards
-  }
-
-  .mode-card:nth-child(1) {
-    animation-delay: 0.28s
-  }
-
-  .mode-card:nth-child(2) {
-    animation-delay: 0.4s
-  }
-
-  .mode-card:hover {
-    border-color: var(--gold);
-    transform: translateY(-6px) scale(1.02);
-    background: var(--surface2);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(200, 168, 80, 0.2)
-  }
-
-  .mode-card:active {
-    transform: translateY(-2px) scale(1.01)
-  }
-
-  .mode-card h3 {
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    font-family: 'Cinzel', serif
-  }
-
-  .mode-card p {
-    font-size: 0.8rem;
-    color: var(--text3);
-    line-height: 1.6
-  }
-
-  .rules-toggle {
-    font-size: 0.8rem;
-    color: var(--text3);
-    cursor: pointer;
-    text-decoration: underline;
-    margin-top: 1rem;
-    display: inline-block
-  }
-
-  .rules-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
-    text-align: left;
-    font-size: 0.8rem;
-    color: var(--text2);
-    line-height: 1.8;
-    display: none
-  }
-
-  .rules-box.open {
-    display: block
-  }
-
-  .rules-box h4 {
-    color: var(--gold);
-    font-size: 0.85rem;
-    margin: 0.75rem 0 0.25rem;
-    font-family: 'Cinzel', serif
-  }
-
-  #game-screen.game-screen--visible {
-    animation: fade-rise 0.55s cubic-bezier(0.34, 1.15, 0.64, 1) both
-  }
-
-  .mod-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .mod-line {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    color: var(--text);
-    cursor: pointer;
-  }
-
-  .mod-line input {
-    cursor: pointer;
-  }
-
-  .info {
-    margin-left: auto;
-    cursor: pointer;
-    color: var(--text3);
-    position: relative;
-  }
-
-  .info:hover {
-    color: var(--gold);
-  }
-
-  /* Tooltip */
-  .info::after {
-    content: attr(data-info);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--surface3);
-    color: var(--text);
-    border: 1px solid var(--border2);
-    padding: 6px 8px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    width: 220px;
-    text-align: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 10;
-  }
-
-  .info:hover::after {
-    opacity: 1;
-  }
-</style>
-
-<div class="game-wrap">
-  <div id="start-screen" class="start-screen">
-    <h1>SUITFALL</h1>
-    <p>A single-player card game of survival, arithmetic, and strategy.<br>Survive the falling suits as long as you can.
-    </p>
-    <div class="suit-legend" style="justify-content:center;margin-bottom:1.5rem">
-      <span class="sl"><span style="color:var(--spade)">♠</span> Enemies</span>
-      <span class="sl"><span style="color:var(--diamond)">♦</span> Attacks</span>
-      <span class="sl"><span style="color:var(--club)">♣</span> Assists</span>
-      <span class="sl"><span style="color:var(--heart)">♥</span> Health</span>
-    </div>
-    <div class="mode-cards">
-      <div class="mode-card" id="btn-normal">
-        <h3>Normal Mode</h3>
-        <p>Resources are finite. Attacks, Assists & Health are discarded permanently. Survive to Round 10.</p>
+
+    .enemy-card.enemy--new {
+      animation: enemy-appear .45s cubic-bezier(.34, 1.2, .64, 1) both;
+      animation-delay: var(--enemy-delay, 0s)
+    }
+
+    .enemy-name {
+      font-size: .7rem;
+      color: var(--text3);
+      letter-spacing: 1px;
+      font-family: 'Cinzel', serif
+    }
+
+    .enemy-val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--spade);
+      font-family: 'Cinzel', serif;
+      line-height: 1
+    }
+
+    .enemy-stats {
+      font-size: .72rem;
+      color: var(--text2);
+      margin-top: 3px
+    }
+
+    .assign-info {
+      font-size: .72rem;
+      color: var(--gold);
+      margin-top: 3px
+    }
+
+    .action-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem;
+      margin: .75rem 0;
+      font-size: .85rem
+    }
+
+    .action-panel p {
+      color: var(--text2);
+      margin-bottom: .5rem
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: .75rem;
+      letter-spacing: .5px;
+      transition: transform .18s ease, border-color .2s, color .2s, background .2s, box-shadow .2s;
+      font-family: 'Cinzel', serif;
+      position: relative;
+      overflow: hidden
+    }
+
+    .btn:hover:not(.off) {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(200, 168, 80, .05);
+      transform: translateY(-1px)
+    }
+
+    .btn:active:not(.off) {
+      transform: translateY(0) scale(.98)
+    }
+
+    .btn.primary {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+
+    .btn.primary:hover:not(.off) {
+      background: rgba(200, 168, 80, .12);
+      animation: btn-glow .6s ease-out
+    }
+
+    .btn.danger {
+      border-color: var(--diamond);
+      color: var(--diamond)
+    }
+
+    .btn.danger:hover {
+      background: rgba(232, 96, 96, .08)
+    }
+
+    .btn.off {
+      opacity: .3;
+      cursor: not-allowed;
+      pointer-events: none
+    }
+
+    .log-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .6rem .75rem;
+      max-height: 130px;
+      overflow-y: auto;
+      font-size: .78rem
+    }
+
+    .log-entry {
+      padding: 2px 0;
+      border-bottom: 1px solid var(--surface3);
+      color: var(--text2);
+      line-height: 1.5;
+      animation: log-line-in .35s ease-out both
+    }
+
+    .log-entry:nth-child(1) { animation-delay: 0s }
+    .log-entry:nth-child(2) { animation-delay: .03s }
+    .log-entry:nth-child(3) { animation-delay: .06s }
+    .log-entry:nth-child(4) { animation-delay: .09s }
+    .log-entry:nth-child(5) { animation-delay: .12s }
+
+    .log-entry:last-child {
+      border-bottom: none
+    }
+
+    .log-entry.good { color: var(--club) }
+    .log-entry.bad { color: var(--heart) }
+    .log-entry.neutral { color: var(--gold) }
+    .log-entry.enemy { color: var(--spade) }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      animation: overlay-in .35s ease-out
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, .5), 0 0 0 1px rgba(200, 168, 80, .15);
+      animation: modal-pop .45s cubic-bezier(.34, 1.2, .64, 1) both
+    }
+
+    .modal h2 {
+      font-size: 1.6rem;
+      color: var(--gold2);
+      margin-bottom: .5rem;
+      animation: title-glow 3s ease-in-out infinite
+    }
+
+    .modal p {
+      color: var(--text2);
+      font-size: .9rem;
+      margin-bottom: 1rem
+    }
+
+    .modal .big-num {
+      font-size: 3rem;
+      color: var(--text);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      line-height: 1;
+      margin: .5rem 0
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 1rem
+    }
+
+    .continue-wrap { margin: .5rem 0 1.25rem }
+
+    .menu-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: .25rem 0 1.25rem
+    }
+
+    .mods-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: left
+    }
+
+    .mods-box h3 {
+      color: var(--gold);
+      font-size: .9rem;
+      margin: .25rem 0 .5rem;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px
+    }
+
+    .suit-legend {
+      display: flex;
+      gap: 1rem;
+      font-size: .78rem;
+      flex-wrap: wrap;
+      margin: .5rem 0
+    }
+
+    .sl { display: flex; align-items: center; gap: 4px }
+
+    .start-screen {
+      text-align: center;
+      padding: 3rem 1rem
+    }
+
+    .start-screen h1 {
+      font-size: 2.5rem;
+      color: var(--gold2);
+      letter-spacing: 4px;
+      margin-bottom: .5rem;
+      animation: fade-rise .8s cubic-bezier(.34, 1.2, .64, 1) both, title-glow 4s ease-in-out .8s infinite
+    }
+
+    .start-screen>p {
+      color: var(--text2);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.7;
+      animation: fade-rise .7s .12s cubic-bezier(.34, 1.2, .64, 1) both
+    }
+
+    .start-screen .suit-legend {
+      animation: fade-rise .65s .2s cubic-bezier(.34, 1.2, .64, 1) both
+    }
+
+    .mode-cards {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem
+    }
+
+    .mode-card {
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 1.5rem;
+      width: 200px;
+      cursor: pointer;
+      transition: transform .25s cubic-bezier(.34, 1.2, .64, 1), border-color .2s, background .2s, box-shadow .25s;
+      background: var(--surface);
+      opacity: 0;
+      animation: mode-stagger .65s cubic-bezier(.34, 1.2, .64, 1) forwards
+    }
+
+    .mode-card:nth-child(1) { animation-delay: .28s }
+    .mode-card:nth-child(2) { animation-delay: .4s }
+
+    .mode-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-6px) scale(1.02);
+      background: var(--surface2);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .35), 0 0 0 1px rgba(200, 168, 80, .2)
+    }
+
+    .mode-card:active { transform: translateY(-2px) scale(1.01) }
+
+    .mode-card h3 {
+      color: var(--gold);
+      margin-bottom: .5rem;
+      font-size: 1rem;
+      font-family: 'Cinzel', serif
+    }
+
+    .mode-card p {
+      font-size: .8rem;
+      color: var(--text3);
+      line-height: 1.6
+    }
+
+    .rules-toggle {
+      font-size: .8rem;
+      color: var(--text3);
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 1rem;
+      display: inline-block
+    }
+
+    .rules-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: left;
+      font-size: .8rem;
+      color: var(--text2);
+      line-height: 1.8;
+      display: none
+    }
+
+    .rules-box.open { display: block }
+
+    .rules-box h4 {
+      color: var(--gold);
+      font-size: .85rem;
+      margin: .75rem 0 .25rem;
+      font-family: 'Cinzel', serif
+    }
+
+    #game-screen.game-screen--visible {
+      animation: fade-rise .55s cubic-bezier(.34, 1.15, .64, 1) both
+    }
+
+    .mod-list { display: flex; flex-direction: column; gap: 8px }
+
+    .mod-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .9rem;
+      color: var(--text);
+      cursor: pointer
+    }
+
+    .mod-line input { cursor: pointer }
+
+    .info {
+      margin-left: auto;
+      cursor: pointer;
+      color: var(--text3);
+      position: relative
+    }
+
+    .info:hover { color: var(--gold) }
+
+    .info::after {
+      content: attr(data-info);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface3);
+      color: var(--text);
+      border: 1px solid var(--border2);
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: .75rem;
+      width: 220px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 10
+    }
+
+    .info:hover::after { opacity: 1 }
+  </style>
+
+  <div class="game-wrap">
+    <div id="start-screen" class="start-screen">
+      <h1>SUITFALL</h1>
+      <p>A single-player card game of survival, arithmetic, and strategy.<br>Survive the falling suits as long as you can.</p>
+      <div class="suit-legend" style="justify-content:center;margin-bottom:1.5rem">
+        <span class="sl"><span style="color:var(--spade)">♠</span> Enemies</span>
+        <span class="sl"><span style="color:var(--diamond)">♦</span> Attacks</span>
+        <span class="sl"><span style="color:var(--club)">♣</span> Assists</span>
+        <span class="sl"><span style="color:var(--heart)">♥</span> Health</span>
       </div>
-      <div class="mode-card" id="btn-infinite">
-        <h3>Infinite Mode</h3>
-        <p>All used cards return to the deck. Play endlessly until you fall.</p>
+      <div class="mode-cards">
+        <div class="mode-card" id="btn-normal">
+          <h3>Normal Mode</h3>
+          <p>Resources are finite. Attacks, Assists &amp; Health are discarded permanently. Survive to Round 10.</p>
+        </div>
+        <div class="mode-card" id="btn-infinite">
+          <h3>Infinite Mode</h3>
+          <p>All used cards return to the deck. Play endlessly until you fall.</p>
+        </div>
+      </div>
+      <div class="continue-wrap"><button class="btn primary" id="btn-continue" style="display:none">Continue Saved Game</button></div>
+      <div class="menu-actions"><button class="btn" id="btn-mods">Mods</button></div>
+      <span class="rules-toggle" id="rules-toggle">How to play ▾</span>
+      <div class="rules-box" id="rules-box">
+        <h4>The Basics</h4>
+        Draw 5 cards per round. Each round has a Player Phase then an Enemy Phase.
+        <h4>Player Phase</h4>
+        Defeat enemies (♠) by playing at least one Attack (♦), optionally boosted by Assists (♣), with a total value ≥ enemy health. Assists alone cannot defeat an enemy. Play Hearts (♥) to heal up to 20. Unused cards carry over to the next round.
+        <h4>Enemy Phase</h4>
+        Each undefeated enemy attacks you for its card value. Use Assists (♣) to block damage.
+        <h4>Damage Rules</h4>
+        Total attack + assist must meet or exceed enemy health to defeat it — and must include at least one ♦. Partial damage is ignored. Excess does not carry over.
+        <h4>Win Condition</h4>
+        Survive. In Normal Mode, reaching Round 10 is a victory (Round 8 with Sprint mod). Infinite Mode ends only at HP 0.
       </div>
     </div>
-    <div class="continue-wrap">
-      <button class="btn primary" id="btn-continue" style="display:none">Continue Saved Game</button>
-    </div>
-    <div class="menu-actions">
-      <button class="btn" id="btn-mods">Mods</button>
-    </div>
-    <span class="rules-toggle" id="rules-toggle">How to play ▾</span>
-    <div class="rules-box" id="rules-box">
-      <h4>The Basics</h4>
-      Draw 5 cards per round. Each round has a Player Phase then an Enemy Phase.
-      <h4>Player Phase</h4>
-      Defeat enemies (♠) by playing at least one Attack (♦), optionally boosted by Assists (♣), with a total value ≥
-      enemy health. Assists alone cannot defeat an enemy. Play Hearts (♥) to heal up to 20. Unused cards carry over to the next round.
-      <h4>Enemy Phase</h4>
-      Each undefeated enemy attacks you for its card value. Use Assists (♣) to block damage.
-      <h4>Damage Rules</h4>
-      Total attack + assist must meet or exceed enemy health to defeat it — and must include at least one ♦. Partial
-      damage is ignored. Excess does not carry over.
-      <h4>Win Condition</h4>
-      Survive. In Normal Mode, reaching Round 10 is a victory. Infinite Mode ends only at HP 0.
+    <div id="game-screen" style="display:none"></div>
+  </div>
+
+  <div class="overlay" id="end-overlay" style="display:none">
+    <div class="modal">
+      <h2 id="end-title"></h2>
+      <p id="end-msg"></p>
+      <div class="big-num" id="end-rounds"></div>
+      <p style="color:var(--text3);font-size:.8rem">rounds survived</p>
+      <div id="end-mods" style="margin-top:.75rem;font-size:.78rem;color:var(--text3);letter-spacing:.5px;font-family:'Cinzel',serif"></div>
+      <div style="margin-top:1.5rem"><button class="btn primary" id="btn-replay">Play Again</button></div>
     </div>
   </div>
-  <div id="game-screen" style="display:none"></div>
-</div>
 
-<div class="overlay" id="end-overlay" style="display:none">
-  <div class="modal">
-    <h2 id="end-title"></h2>
-    <p id="end-msg"></p>
-    <div class="big-num" id="end-rounds"></div>
-    <p style="color:var(--text3);font-size:0.8rem">rounds survived</p>
-    <div id="end-mods" style="margin-top:0.75rem;font-size:0.78rem;color:var(--text3);letter-spacing:0.5px;font-family:'Cinzel',serif"></div>
-    <div style="margin-top:1.5rem">
-      <button class="btn primary" id="btn-replay">Play Again</button>
-    </div>
-  </div>
-</div>
-
-<div class="overlay" id="confirm-overlay" style="display:none">
-  <div class="modal">
-    <h2 id="confirm-title">CONFIRM ACTION</h2>
-    <p id="confirm-msg"></p>
-    <div class="modal-actions">
-      <button class="btn" id="btn-confirm-cancel">Cancel</button>
-      <button class="btn danger primary" id="btn-confirm-ok">Proceed</button>
-    </div>
-  </div>
-</div>
-
-<div class="overlay" id="menu-overlay" style="display:none">
-  <div class="modal">
-    <h2>RETURN TO MENU?</h2>
-    <p>You can save now and continue this run later.</p>
-    <div class="modal-actions">
-      <button class="btn" id="btn-menu-cancel">Cancel</button>
-      <button class="btn" id="btn-menu-back">Back Without Save</button>
-      <button class="btn primary" id="btn-menu-save">Save &amp; Back</button>
-    </div>
-  </div>
-</div>
-
-<div class="overlay" id="mods-overlay" style="display:none">
-  <div class="modal" style="max-width:640px">
-    <h2>MOD MENU</h2>
-    <p style="margin-bottom:0.75rem">Enable optional modifiers.</p>
-    <div class="mods-box">
-      <h3>Major Mods:</h3>
-      <div class="mod-list">
-
-        <label class="mod-line">
-          <input type="checkbox" id="mod-bl">
-          Backlash (BL)
-          <span class="info"
-            data-info="During the player phase, you take damage equal to ⌊(sum of ♦ used this round) / 2⌋.">🛈</span>
-        </label>
-
-        <label class="mod-line">
-          <input type="checkbox" id="mod-vl">
-          Veil (VL)
-          <span class="info"
-            data-info="1 in 7 cards are hidden. Hidden cards show '?' and affect attack/defense unpredictably.">🛈</span>
-        </label>
-
-        <label class="mod-line">
-          <input type="checkbox" id="mod-nd">
-          Needle (ND)
-          <span class="info"
-            data-info="Attack must exactly equal enemy value to defeat it. Otherwise it does nothing.">🛈</span>
-        </label>
-
-      </div>
-
-      <h3 style="margin-top:1rem">Minor Mods:</h3>
-      <div class="mod-list">
-
-        <label class="mod-line">
-          <input type="checkbox" id="mod-fh">
-          Faint Heart (FH)
-          <span class="info" data-info="Max HP is reduced to 15.">🛈</span>
-        </label>
-
-        <label class="mod-line">
-          <input type="checkbox" id="mod-mh">
-          Meager Hands (MH)
-          <span class="info" data-info="Draw 4 cards per round instead of 5.">🛈</span>
-        </label>
-
-        <label class="mod-line">
-          <input type="checkbox" id="mod-hx">
-          Hex (HX)
-          <span class="info"
-            data-info="One random card in your hand is disabled each round. It cannot be selected or used.">🛈</span>
-        </label>
-        
+  <div class="overlay" id="confirm-overlay" style="display:none">
+    <div class="modal">
+      <h2 id="confirm-title">CONFIRM ACTION</h2>
+      <p id="confirm-msg"></p>
+      <div class="modal-actions">
+        <button class="btn" id="btn-confirm-cancel">Cancel</button>
+        <button class="btn danger primary" id="btn-confirm-ok">Proceed</button>
       </div>
     </div>
-    <div class="modal-actions">
-      <button class="btn" id="btn-mods-close">Close</button>
-      <button class="btn primary" id="btn-mods-save">Save Mods</button>
+  </div>
+
+  <div class="overlay" id="menu-overlay" style="display:none">
+    <div class="modal">
+      <h2>RETURN TO MENU?</h2>
+      <p>You can save now and continue this run later.</p>
+      <div class="modal-actions">
+        <button class="btn" id="btn-menu-cancel">Cancel</button>
+        <button class="btn" id="btn-menu-back">Back Without Save</button>
+        <button class="btn primary" id="btn-menu-save">Save &amp; Back</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  var G = {};
-  var SUIT_ORDER = { d: 0, c: 1, h: 2 };
-  var pendingConfirmAction = null;
-  var pendingConfirmCancelAction = null;
-  var SAVE_KEY = 'suitfall_saved_game_v1';
-  var MODS_KEY = 'suitfall_mods_v1';
-  var dragProxyEl = null;
-  var dragProxyPixel = null;
+  <div class="overlay" id="mods-overlay" style="display:none">
+    <div class="modal" style="max-width:640px">
+      <h2>MOD MENU</h2>
+      <p style="margin-bottom:.75rem">Enable optional modifiers. Major mods make the game much harder; minor mods make it slightly easier.</p>
+      <div class="mods-box">
+        <h3>Major Mods:</h3>
+        <div class="mod-list">
+          <label class="mod-line"><input type="checkbox" id="mod-bl"> Backlash (BL) <span class="info" data-info="During the player phase, you take damage equal to ⌊(sum of ♦ used this round) / 2⌋.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-vl"> Veil (VL) <span class="info" data-info="1 in 7 cards are hidden. Hidden cards show '?' and affect attack/defense unpredictably.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-nd"> Needle (ND) <span class="info" data-info="Attack must exactly equal enemy value to defeat it. Otherwise it does nothing.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-fh"> Faint Heart (FH) <span class="info" data-info="Max HP is reduced to 15.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-hx"> Hex (HX) <span class="info" data-info="One random card in your hand is disabled each round. It cannot be selected or used.">🛈</span></label>
+        </div>
+        <h3 style="margin-top:1rem">Minor Mods:</h3>
+        <div class="mod-list">
+          <label class="mod-line"><input type="checkbox" id="mod-mh"> Meager Hands (MH) <span class="info" data-info="Draw 4 cards per round instead of 5.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-sp"> Sprint (SP) <span class="info" data-info="In Normal Mode, the run ends after 8 rounds instead of 10.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-hs"> Head Start (HS) <span class="info" data-info="No enemies appear in round 1. Round 2 is guaranteed to have at least one enemy.">🛈</span></label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="btn-mods-close">Close</button>
+        <button class="btn primary" id="btn-mods-save">Save Mods</button>
+      </div>
+    </div>
+  </div>
 
-  function defaultMods() {
-    return { BL: false, VL: false, ND: false, FH: false, MH: false, HX: false };
-  }
+  <script>
+    var G = {};
+    var SUIT_ORDER = { d: 0, c: 1, h: 2 };
+    var pendingConfirmAction = null;
+    var pendingConfirmCancelAction = null;
+    var SAVE_KEY = 'suitfall_saved_game_v1';
+    var MODS_KEY = 'suitfall_mods_v1';
+    var dragProxyEl = null;
+    var dragProxyPixel = null;
 
-  function loadMods() {
-    try {
-      var raw = window.localStorage.getItem(MODS_KEY);
-      if (!raw) return defaultMods();
-      var m = JSON.parse(raw) || {};
-      return { BL: !!m.BL, VL: !!m.VL, ND: !!m.ND, FH: !!m.FH, MH: !!m.MH, HX: !!m.HX };
-    } catch (_e) {
-      return defaultMods();
+    function defaultMods() {
+      return { BL: false, VL: false, ND: false, FH: false, MH: false, HX: false, SP: false, HS: false };
     }
-  }
 
-  function saveMods(mods) {
-    try {
-      window.localStorage.setItem(MODS_KEY, JSON.stringify(mods));
-      return true;
-    } catch (_e) {
-      return false;
+    function loadMods() {
+      try {
+        var raw = window.localStorage.getItem(MODS_KEY);
+        if (!raw) return defaultMods();
+        var m = JSON.parse(raw) || {};
+        return { BL: !!m.BL, VL: !!m.VL, ND: !!m.ND, FH: !!m.FH, MH: !!m.MH, HX: !!m.HX, SP: !!m.SP, HS: !!m.HS };
+      } catch (_e) { return defaultMods(); }
     }
-  }
 
-  function openModsModal() {
-    var m = loadMods();
-    document.getElementById('mod-bl').checked = !!m.BL;
-    document.getElementById('mod-vl').checked = !!m.VL;
-    document.getElementById('mod-nd').checked = !!m.ND;
-    document.getElementById('mod-fh').checked = !!m.FH;
-    document.getElementById('mod-mh').checked = !!m.MH;
-    document.getElementById('mod-hx').checked = !!m.HX;
-    document.getElementById('mods-overlay').style.display = 'flex';
-  }
-
-  function closeModsModal() {
-    document.getElementById('mods-overlay').style.display = 'none';
-  }
-
-  function readModsFromModal() {
-    return {
-      BL: document.getElementById('mod-bl').checked,
-      VL: document.getElementById('mod-vl').checked,
-      ND: document.getElementById('mod-nd').checked,
-      FH: document.getElementById('mod-fh').checked,
-      MH: document.getElementById('mod-mh').checked,
-      HX: document.getElementById('mod-hx').checked
-    };
-  }
-
-  document.getElementById('btn-normal').addEventListener('click', function () { startGame('normal'); });
-  document.getElementById('btn-infinite').addEventListener('click', function () { startGame('infinite'); });
-  document.getElementById('btn-continue').addEventListener('click', continueSavedGame);
-  document.getElementById('btn-mods').addEventListener('click', openModsModal);
-  document.getElementById('btn-mods-close').addEventListener('click', closeModsModal);
-  document.getElementById('btn-mods-save').addEventListener('click', function () {
-    saveMods(readModsFromModal());
-    closeModsModal();
-  });
-  document.getElementById('rules-toggle').addEventListener('click', function () {
-    document.getElementById('rules-box').classList.toggle('open');
-  });
-  document.getElementById('btn-replay').addEventListener('click', function () {
-    document.getElementById('end-overlay').style.display = 'none';
-    var gs = document.getElementById('game-screen');
-    gs.style.display = 'none';
-    gs.classList.remove('game-screen--visible');
-    document.getElementById('start-screen').style.display = 'block';
-  });
-  document.getElementById('btn-confirm-cancel').addEventListener('click', function () {
-    var onCancel = pendingConfirmCancelAction;
-    closeConfirmModal();
-    if (onCancel) onCancel();
-  });
-  document.getElementById('btn-confirm-ok').addEventListener('click', function () {
-    var action = pendingConfirmAction;
-    closeConfirmModal();
-    if (action) action();
-  });
-  document.getElementById('btn-menu-cancel').addEventListener('click', closeMenuModal);
-  document.getElementById('btn-menu-back').addEventListener('click', function () {
-    closeMenuModal();
-    goToMainMenu();
-  });
-  document.getElementById('btn-menu-save').addEventListener('click', function () {
-    closeMenuModal();
-    saveCurrentGame();
-    goToMainMenu();
-  });
-
-  function sortHand() {
-    G.hand.sort(function (a, b) {
-      var so = SUIT_ORDER[a.s] - SUIT_ORDER[b.s];
-      return so !== 0 ? so : a.v - b.v;
-    });
-  }
-
-  function startGame(mode) {
-    clearSavedGame();
-    document.getElementById('start-screen').style.display = 'none';
-    var gs = document.getElementById('game-screen');
-    gs.style.display = 'block';
-    gs.classList.add('game-screen--visible');
-    initGame(mode, loadMods());
-  }
-
-  function hasSavedGame() {
-    try {
-      return !!window.localStorage.getItem(SAVE_KEY);
-    } catch (_e) {
-      return false;
+    function saveMods(mods) {
+      try { window.localStorage.setItem(MODS_KEY, JSON.stringify(mods)); return true; }
+      catch (_e) { return false; }
     }
-  }
 
-  function updateContinueButton() {
-    var btn = document.getElementById('btn-continue');
-    if (!btn) return;
-    btn.style.display = hasSavedGame() ? 'inline-block' : 'none';
-  }
-
-  function clearSavedGame() {
-    try { window.localStorage.removeItem(SAVE_KEY); } catch (_e) { }
-    updateContinueButton();
-  }
-
-  function saveCurrentGame() {
-    if (!G || !Array.isArray(G.deck)) return false;
-    var state = {
-      mode: G.mode, mods: G.mods || defaultMods(), maxHp: G.maxHp, drawCount: G.drawCount, hp: G.hp, round: G.round, phase: G.phase, deck: G.deck, hand: G.hand, discard: G.discard,
-      enemies: G.enemies, selected: G.selected, targetEnemy: G.targetEnemy, log: G.log, assistBlocks: G.assistBlocks,
-      _seenHandIds: G._seenHandIds, _seenEnemyIds: G._seenEnemyIds, autoSort: !!G.autoSort,
-      roundDiamondSum: G.roundDiamondSum || 0
-    };
-    try {
-      window.localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-      return true;
-    } catch (_e) {
-      return false;
-    } finally {
-      updateContinueButton();
+    function openModsModal() {
+      var m = loadMods();
+      document.getElementById('mod-bl').checked = !!m.BL;
+      document.getElementById('mod-vl').checked = !!m.VL;
+      document.getElementById('mod-nd').checked = !!m.ND;
+      document.getElementById('mod-fh').checked = !!m.FH;
+      document.getElementById('mod-mh').checked = !!m.MH;
+      document.getElementById('mod-hx').checked = !!m.HX;
+      document.getElementById('mod-sp').checked = !!m.SP;
+      document.getElementById('mod-hs').checked = !!m.HS;
+      document.getElementById('mods-overlay').style.display = 'flex';
     }
-  }
 
-  function continueSavedGame() {
-    var raw = null;
-    try { raw = window.localStorage.getItem(SAVE_KEY); } catch (_e) { raw = null; }
-    if (!raw) return;
-    try {
-      var state = JSON.parse(raw);
-      var mods = state.mods || loadMods();
-      G = {
-        mode: state.mode || 'normal',
-        mods: { BL: !!mods.BL, VL: !!mods.VL, ND: !!mods.ND, FH: !!mods.FH, MH: !!mods.MH, HX: !!mods.HX },
-        maxHp: state.maxHp || ((mods && mods.FH) ? 15 : 20),
-        drawCount: state.drawCount || ((mods && mods.MH) ? 4 : 5),
-        hp: (typeof state.hp === 'number' ? state.hp : ((mods && mods.FH) ? 15 : 20)),
-        round: state.round || 1, phase: state.phase || 'player',
-        deck: Array.isArray(state.deck) ? state.deck : [], hand: Array.isArray(state.hand) ? state.hand : [],
-        discard: Array.isArray(state.discard) ? state.discard : [], enemies: Array.isArray(state.enemies) ? state.enemies : [],
-        selected: Array.isArray(state.selected) ? state.selected : [], targetEnemy: state.targetEnemy || null,
-        log: Array.isArray(state.log) ? state.log : [], assistBlocks: state.assistBlocks || {},
-        _seenHandIds: state._seenHandIds || {}, _seenEnemyIds: state._seenEnemyIds || {}, autoSort: !!state.autoSort,
-        _animateReorder: false, _dropSettleCardId: null,
-        roundDiamondSum: state.roundDiamondSum || 0
+    function closeModsModal() { document.getElementById('mods-overlay').style.display = 'none'; }
+
+    function readModsFromModal() {
+      return {
+        BL: document.getElementById('mod-bl').checked,
+        VL: document.getElementById('mod-vl').checked,
+        ND: document.getElementById('mod-nd').checked,
+        FH: document.getElementById('mod-fh').checked,
+        MH: document.getElementById('mod-mh').checked,
+        HX: document.getElementById('mod-hx').checked,
+        SP: document.getElementById('mod-sp').checked,
+        HS: document.getElementById('mod-hs').checked
       };
+    }
+
+    document.getElementById('btn-normal').addEventListener('click', function () { startGame('normal'); });
+    document.getElementById('btn-infinite').addEventListener('click', function () { startGame('infinite'); });
+    document.getElementById('btn-continue').addEventListener('click', continueSavedGame);
+    document.getElementById('btn-mods').addEventListener('click', openModsModal);
+    document.getElementById('btn-mods-close').addEventListener('click', closeModsModal);
+    document.getElementById('btn-mods-save').addEventListener('click', function () { saveMods(readModsFromModal()); closeModsModal(); });
+    document.getElementById('rules-toggle').addEventListener('click', function () { document.getElementById('rules-box').classList.toggle('open'); });
+    document.getElementById('btn-replay').addEventListener('click', function () {
+      document.getElementById('end-overlay').style.display = 'none';
+      var gs = document.getElementById('game-screen');
+      gs.style.display = 'none'; gs.classList.remove('game-screen--visible');
+      document.getElementById('start-screen').style.display = 'block';
+    });
+    document.getElementById('btn-confirm-cancel').addEventListener('click', function () {
+      var onCancel = pendingConfirmCancelAction; closeConfirmModal(); if (onCancel) onCancel();
+    });
+    document.getElementById('btn-confirm-ok').addEventListener('click', function () {
+      var action = pendingConfirmAction; closeConfirmModal(); if (action) action();
+    });
+    document.getElementById('btn-menu-cancel').addEventListener('click', closeMenuModal);
+    document.getElementById('btn-menu-back').addEventListener('click', function () { closeMenuModal(); goToMainMenu(); });
+    document.getElementById('btn-menu-save').addEventListener('click', function () { closeMenuModal(); saveCurrentGame(); goToMainMenu(); });
+
+    function sortHand() {
+      G.hand.sort(function (a, b) {
+        var so = SUIT_ORDER[a.s] - SUIT_ORDER[b.s];
+        return so !== 0 ? so : a.v - b.v;
+      });
+    }
+
+    function startGame(mode) {
+      clearSavedGame();
       document.getElementById('start-screen').style.display = 'none';
       var gs = document.getElementById('game-screen');
-      gs.style.display = 'block';
-      gs.classList.add('game-screen--visible');
+      gs.style.display = 'block'; gs.classList.add('game-screen--visible');
+      initGame(mode, loadMods());
+    }
+
+    function hasSavedGame() {
+      try { return !!window.localStorage.getItem(SAVE_KEY); } catch (_e) { return false; }
+    }
+
+    function updateContinueButton() {
+      var btn = document.getElementById('btn-continue');
+      if (!btn) return;
+      btn.style.display = hasSavedGame() ? 'inline-block' : 'none';
+    }
+
+    function clearSavedGame() {
+      try { window.localStorage.removeItem(SAVE_KEY); } catch (_e) { }
+      updateContinueButton();
+    }
+
+    function saveCurrentGame() {
+      if (!G || !Array.isArray(G.deck)) return false;
+      var state = {
+        mode: G.mode, mods: G.mods || defaultMods(), maxHp: G.maxHp, drawCount: G.drawCount,
+        hp: G.hp, round: G.round, phase: G.phase, deck: G.deck, hand: G.hand, discard: G.discard,
+        enemies: G.enemies, selected: G.selected, targetEnemy: G.targetEnemy, log: G.log,
+        assistBlocks: G.assistBlocks, _seenHandIds: G._seenHandIds, _seenEnemyIds: G._seenEnemyIds,
+        autoSort: !!G.autoSort, roundDiamondSum: G.roundDiamondSum || 0
+      };
+      try { window.localStorage.setItem(SAVE_KEY, JSON.stringify(state)); return true; }
+      catch (_e) { return false; }
+      finally { updateContinueButton(); }
+    }
+
+    function continueSavedGame() {
+      var raw = null;
+      try { raw = window.localStorage.getItem(SAVE_KEY); } catch (_e) { raw = null; }
+      if (!raw) return;
+      try {
+        var state = JSON.parse(raw);
+        var mods = state.mods || loadMods();
+        G = {
+          mode: state.mode || 'normal',
+          mods: { BL: !!mods.BL, VL: !!mods.VL, ND: !!mods.ND, FH: !!mods.FH, MH: !!mods.MH, HX: !!mods.HX, SP: !!mods.SP, HS: !!mods.HS },
+          maxHp: state.maxHp || ((mods && mods.FH) ? 15 : 20),
+          drawCount: state.drawCount || ((mods && mods.MH) ? 4 : 5),
+          hp: (typeof state.hp === 'number' ? state.hp : ((mods && mods.FH) ? 15 : 20)),
+          round: state.round || 1, phase: state.phase || 'player',
+          deck: Array.isArray(state.deck) ? state.deck : [], hand: Array.isArray(state.hand) ? state.hand : [],
+          discard: Array.isArray(state.discard) ? state.discard : [], enemies: Array.isArray(state.enemies) ? state.enemies : [],
+          selected: Array.isArray(state.selected) ? state.selected : [], targetEnemy: state.targetEnemy || null,
+          log: Array.isArray(state.log) ? state.log : [], assistBlocks: state.assistBlocks || {},
+          _seenHandIds: state._seenHandIds || {}, _seenEnemyIds: state._seenEnemyIds || {}, autoSort: !!state.autoSort,
+          _animateReorder: false, _dropSettleCardId: null, roundDiamondSum: state.roundDiamondSum || 0
+        };
+        document.getElementById('start-screen').style.display = 'none';
+        var gs = document.getElementById('game-screen');
+        gs.style.display = 'block'; gs.classList.add('game-screen--visible');
+        render();
+      } catch (_e) { clearSavedGame(); }
+    }
+
+    function goToMainMenu() {
+      var gs = document.getElementById('game-screen');
+      gs.style.display = 'none'; gs.classList.remove('game-screen--visible');
+      document.getElementById('start-screen').style.display = 'block';
+      updateContinueButton();
+    }
+
+    function flashDamageHud() {
+      requestAnimationFrame(function () {
+        var w = document.querySelector('.game-wrap'); var h = document.querySelector('.hp-bar-wrap');
+        if (w) w.classList.add('hud-shake');
+        if (h) h.classList.add('hp-damage');
+        setTimeout(function () { if (w) w.classList.remove('hud-shake'); if (h) h.classList.remove('hp-damage'); }, 480);
+      });
+    }
+
+    function flashHealHud() {
+      requestAnimationFrame(function () {
+        var h = document.querySelector('.hp-bar-wrap');
+        if (!h) return;
+        h.classList.add('hp-heal');
+        setTimeout(function () { h.classList.remove('hp-heal'); }, 640);
+      });
+    }
+
+    function openConfirmModal(opts) {
+      opts = opts || {};
+      pendingConfirmAction = opts.onConfirm || null;
+      pendingConfirmCancelAction = opts.onCancel || null;
+      document.getElementById('confirm-title').textContent = opts.title || 'CONFIRM ACTION';
+      document.getElementById('confirm-msg').textContent = opts.message || '';
+      document.getElementById('btn-confirm-ok').textContent = opts.confirmText || 'Proceed';
+      document.getElementById('confirm-overlay').style.display = 'flex';
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirm-overlay').style.display = 'none';
+      pendingConfirmAction = null; pendingConfirmCancelAction = null;
+    }
+
+    function openMenuModal() { document.getElementById('menu-overlay').style.display = 'flex'; }
+    function closeMenuModal() { document.getElementById('menu-overlay').style.display = 'none'; }
+
+    function cn(c) { var m = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' }; return m[c.v] || String(c.v); }
+    function sym(s) { return { s: '♠', d: '♦', c: '♣', h: '♥' }[s]; }
+    function dval(c) { return (c && c.hidden) ? '?' : cn(c); }
+    function dsym(c) { return (c && c.hidden) ? '?' : sym(c.s); }
+    function dcls(c) { return (c && c.hidden) ? 'u' : c.s; }
+
+    function makeDeck() {
+      var suits = ['s', 'd', 'c', 'h'], deck = [];
+      for (var i = 0; i < suits.length; i++)
+        for (var v = 1; v <= 13; v++)
+          deck.push({ s: suits[i], v: v, hidden: false, id: suits[i] + v + '_' + Math.random() });
+      return deck;
+    }
+
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function insertMiddle(arr, items) {
+      for (var k = 0; k < items.length; k++) {
+        var lo = Math.floor(arr.length * 0.25), hi = Math.floor(arr.length * 0.75);
+        var pos = lo + Math.floor(Math.random() * (hi - lo + 1));
+        arr.splice(pos, 0, items[k]);
+      }
+    }
+
+    function consumeCard(c) {
+      G.hand = G.hand.filter(function (h) { return h.id !== c.id; });
+      if (G.mode === 'normal') G.discard.push(c);
+    }
+
+    function winRound() { return (G.mods && G.mods.SP) ? 8 : 10; }
+
+    function initGame(mode, mods) {
+      mods = mods || defaultMods();
+      var maxHp = mods.FH ? 15 : 20;
+      var drawCount = mods.MH ? 4 : 5;
+      G = {
+        mode: mode, mods: mods, maxHp: maxHp, drawCount: drawCount, hp: maxHp,
+        round: 1, phase: 'player', deck: [], hand: [], discard: [], enemies: [],
+        selected: [], targetEnemy: null, log: [], assistBlocks: {},
+        _seenHandIds: {}, _seenEnemyIds: {}, autoSort: false,
+        _animateReorder: false, _dropSettleCardId: null, roundDiamondSum: 0, hexDisabledCardId: null
+      };
+      if (G.mods && G.mods.VL) G.autoSort = false;
+      G.deck = shuffle(makeDeck());
+      drawRound(true);
       render();
-    } catch (_e) {
-      clearSavedGame();
-    }
-  }
-
-  function goToMainMenu() {
-    var gs = document.getElementById('game-screen');
-    gs.style.display = 'none';
-    gs.classList.remove('game-screen--visible');
-    document.getElementById('start-screen').style.display = 'block';
-    updateContinueButton();
-  }
-
-  function flashDamageHud() {
-    requestAnimationFrame(function () {
-      var w = document.querySelector('.game-wrap');
-      var h = document.querySelector('.hp-bar-wrap');
-      if (w) w.classList.add('hud-shake');
-      if (h) h.classList.add('hp-damage');
-      setTimeout(function () {
-        if (w) w.classList.remove('hud-shake');
-        if (h) h.classList.remove('hp-damage');
-      }, 480);
-    });
-  }
-
-  function flashHealHud() {
-    requestAnimationFrame(function () {
-      var h = document.querySelector('.hp-bar-wrap');
-      if (!h) return;
-      h.classList.add('hp-heal');
-      setTimeout(function () { h.classList.remove('hp-heal'); }, 640);
-    });
-  }
-
-  function openConfirmModal(opts) {
-    opts = opts || {};
-    var title = opts.title || 'CONFIRM ACTION';
-    var message = opts.message || '';
-    var confirmText = opts.confirmText || 'Proceed';
-    var onConfirm = opts.onConfirm || null;
-    var onCancel = opts.onCancel || null;
-    pendingConfirmAction = onConfirm || null;
-    pendingConfirmCancelAction = onCancel || null;
-    document.getElementById('confirm-title').textContent = title;
-    document.getElementById('confirm-msg').textContent = message;
-    document.getElementById('btn-confirm-ok').textContent = confirmText;
-    document.getElementById('confirm-overlay').style.display = 'flex';
-  }
-
-  function closeConfirmModal() {
-    document.getElementById('confirm-overlay').style.display = 'none';
-    pendingConfirmAction = null;
-    pendingConfirmCancelAction = null;
-  }
-
-  function openMenuModal() {
-    document.getElementById('menu-overlay').style.display = 'flex';
-  }
-
-  function closeMenuModal() {
-    document.getElementById('menu-overlay').style.display = 'none';
-  }
-
-  function cn(c) { var m = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' }; return m[c.v] || String(c.v); }
-  function sym(s) { return { s: '♠', d: '♦', c: '♣', h: '♥' }[s]; }
-  function dval(c) { return (c && c.hidden) ? '?' : cn(c); }
-  function dsym(c) { return (c && c.hidden) ? '?' : sym(c.s); }
-  function dcls(c) { return (c && c.hidden) ? 'u' : c.s; }
-
-  function makeDeck() {
-    var suits = ['s', 'd', 'c', 'h'], deck = [];
-    for (var i = 0; i < suits.length; i++)
-      for (var v = 1; v <= 13; v++)
-        deck.push({ s: suits[i], v: v, hidden: false, id: suits[i] + v + '_' + Math.random() });
-    return deck;
-  }
-
-  function shuffle(a) {
-    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
-    return a;
-  }
-
-  function insertMiddle(arr, items) {
-    for (var k = 0; k < items.length; k++) {
-      var lo = Math.floor(arr.length * 0.25), hi = Math.floor(arr.length * 0.75);
-      var pos = lo + Math.floor(Math.random() * (hi - lo + 1));
-      arr.splice(pos, 0, items[k]);
-    }
-  }
-
-  function consumeCard(c) {
-    G.hand = G.hand.filter(function (h) { return h.id !== c.id; });
-    if (G.mode === 'normal') G.discard.push(c);
-  }
-
-  function initGame(mode, mods) {
-    mods = mods || defaultMods();
-    var maxHp = mods.FH ? 15 : 20;
-    var drawCount = mods.MH ? 4 : 5;
-    G = { mode: mode, mods: mods, maxHp: maxHp, drawCount: drawCount, hp: maxHp, round: 1, phase: 'player', deck: [], hand: [], discard: [], enemies: [], selected: [], targetEnemy: null, log: [], assistBlocks: {}, _seenHandIds: {}, _seenEnemyIds: {}, autoSort: false, _animateReorder: false, _dropSettleCardId: null, roundDiamondSum: 0, hexDisabledCardId: null };
-    if (G.mods && G.mods.VL) G.autoSort = false;
-    G.deck = shuffle(makeDeck());
-    drawRound(true);
-    render();
-  }
-
-  function addLog(msg, cls) {
-    G.log.unshift({ msg: msg, cls: cls || 'neutral' });
-    if (G.log.length > 60) G.log.pop();
-  }
-
-  function drawRound(firstRound) {
-    G.selected = [];
-    G.targetEnemy = null;
-    G.assistBlocks = {};
-    G.roundDiamondSum = 0;
-
-    var drawn = [];
-    var dc = G.drawCount || 5;
-    for (var i = 0; i < dc && G.deck.length > 0; i++) drawn.push(G.deck.pop());
-
-    if (firstRound) {
-      var attempts = 0;
-      while (!drawn.some(function (c) { return c.s === 's'; }) && G.deck.length > 0 && attempts < 10) {
-        for (var k = 0; k < drawn.length; k++) G.deck.push(drawn[k]);
-        shuffle(G.deck); drawn = [];
-        for (var i = 0; i < dc && G.deck.length > 0; i++) drawn.push(G.deck.pop());
-        attempts++;
-      }
     }
 
-    if (G.mods && G.mods.VL) {
-      for (var b = 0; b < drawn.length; b++) {
-        if (Math.floor(Math.random() * 7) === 0) drawn[b].hidden = true;
-      }
+    function addLog(msg, cls) {
+      G.log.unshift({ msg: msg, cls: cls || 'neutral' });
+      if (G.log.length > 60) G.log.pop();
     }
 
-    var newEnemies = drawn.filter(function (c) { return c.s === 's'; }).map(function (c) {
-      return { s: c.s, v: c.v, hidden: !!c.hidden, id: c.s + c.v + '_' + Math.random(), defeated: false };
-    });
-    var newHandCards = drawn.filter(function (c) { return c.s !== 's'; });
-
-    var carried = G.enemies.filter(function (e) { return !e.defeated; });
-    G.enemies = carried.concat(newEnemies);
-    G.hand = G.hand.concat(newHandCards);
-    if (G.autoSort) {
-      sortHand();
-      G._animateReorder = true;
-    }
-
-    // Hex: pick a new random disabled card each round
-    G.hexDisabledCardId = null;
-    if (G.mods && G.mods.HX && G.hand.length > 0) {
-      var eligibleHand = G.hand.filter(function(c) { return c.s !== 's'; });
-      if (eligibleHand.length > 0) {
-        var hexCard = eligibleHand[Math.floor(Math.random() * eligibleHand.length)];
-        G.hexDisabledCardId = hexCard.id;
-        addLog('Hex: ' + (hexCard.hidden ? '?' : (function(){var m={1:'A',11:'J',12:'Q',13:'K'};return m[hexCard.v]||String(hexCard.v);})()) + (hexCard.hidden ? '' : ({s:'♠',d:'♦',c:'♣',h:'♥'}[hexCard.s])) + ' is hexed and cannot be used this round.', 'bad');
-      }
-    }
-
-    addLog('Round ' + G.round + ': drew ' + newEnemies.length + ' new enem' + (newEnemies.length === 1 ? 'y' : 'ies') + (carried.length > 0 ? ' + ' + carried.length + ' carried over' : '') + '.');
-  }
-
-  function moveCardInHand(dragId, targetId) {
-    if (!dragId || !targetId || dragId === targetId) return;
-    var from = -1, to = -1;
-    for (var i = 0; i < G.hand.length; i++) {
-      if (G.hand[i].id === dragId) from = i;
-      if (G.hand[i].id === targetId) to = i;
-    }
-    if (from < 0 || to < 0 || from === to) return;
-    var moved = G.hand.splice(from, 1)[0];
-    if (from < to) to--;
-    G.hand.splice(to, 0, moved);
-  }
-
-  function ensureDragProxy() {
-    if (!dragProxyEl) {
-      dragProxyEl = document.createElement('div');
-      dragProxyEl.className = 'drag-proxy';
-      document.body.appendChild(dragProxyEl);
-    }
-  }
-
-  function setDragProxyFromCard(card) {
-    ensureDragProxy();
-    dragProxyEl.innerHTML = card.innerHTML;
-  }
-
-  function moveDragProxy(e) {
-    if (!dragProxyEl) return;
-    dragProxyEl.style.transform = 'translate(' + (e.clientX + 14) + 'px,' + (e.clientY + 10) + 'px) scale(1.04) rotate(-2deg)';
-  }
-
-  function hideDragProxy() {
-    if (!dragProxyEl) return;
-    dragProxyEl.style.transform = 'translate(-9999px,-9999px)';
-  }
-
-  function selectCard(id) {
-    var idx = G.selected.indexOf(id);
-    if (idx >= 0) G.selected.splice(idx, 1);
-    else G.selected.push(id);
-    render();
-  }
-
-  function selectEnemy(id) {
-    G.targetEnemy = G.targetEnemy === id ? null : id;
-    render();
-  }
-
-  function attackEnemy() {
-    if (!G.targetEnemy || G.phase !== 'player') return;
-    var enemy = null;
-    for (var i = 0; i < G.enemies.length; i++) { if (G.enemies[i].id === G.targetEnemy && !G.enemies[i].defeated) { enemy = G.enemies[i]; break; } }
-    if (!enemy) { addLog('No valid target.', 'bad'); render(); return; }
-    var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
-    var valid = sel.filter(function (c) { return c.s === 'd' || c.s === 'c'; });
-    if (valid.length === 0) { addLog('Select attack (♦) or assist (♣) cards.', 'bad'); render(); return; }
-
-    var hasDiamond = valid.some(function (c) { return c.s === 'd'; });
-    var total = valid.reduce(function (a, c) { return a + c.v; }, 0);
-    var hasHiddenAttack = valid.some(function (c) { return !!c.hidden; });
-
-    if (!hasHiddenAttack && !hasDiamond) {
-      if (G.mods && G.mods.VL) { finalizeAttack(enemy, valid, hasDiamond, total); return; }
-      openConfirmModal({
-        title: 'CONFIRM ATTACK',
-        message: 'No ♦ selected. Assists alone cannot defeat enemies and the selected cards will be lost. Continue?',
-        confirmText: 'Proceed',
-        onConfirm: function () { finalizeAttack(enemy, valid, hasDiamond, total); },
-        onCancel: function () {
-          addLog('Attack cancelled. Select at least one ♦ to defeat enemies.', 'neutral');
-          render();
-        }
-      });
-      return;
-    }
-
-    if (!hasHiddenAttack && total < enemy.v) {
-      if (G.mods && G.mods.VL) { finalizeAttack(enemy, valid, hasDiamond, total); return; }
-      openConfirmModal({
-        title: 'WEAK ATTACK',
-        message: 'Your selected total (' + total + ') is below ' + cn(enemy) + '♠ HP (' + enemy.v + '). This attack will fail and cards will be lost. Continue?',
-        confirmText: 'Attack Anyway',
-        onConfirm: function () { finalizeAttack(enemy, valid, hasDiamond, total); },
-        onCancel: function () {
-          addLog('Attack cancelled. Increase total damage before attacking.', 'neutral');
-          render();
-        }
-      });
-      return;
-    }
-
-    finalizeAttack(enemy, valid, hasDiamond, total);
-  }
-
-  function finalizeAttack(enemy, valid, hasDiamond, total) {
-    // Consume cards once action is confirmed
-    if (G.mods && G.mods.BL) {
-      for (var j = 0; j < valid.length; j++) {
-        if (valid[j].s === 'd') G.roundDiamondSum = (G.roundDiamondSum || 0) + valid[j].v;
-      }
-    }
-    for (var i = 0; i < valid.length; i++) consumeCard(valid[i]);
-
-    if (!hasDiamond) {
-      // Assists alone cannot defeat — attack wasted, enemy survives
-      addLog('No ♦ in attack — assists alone cannot defeat. ' + cn(enemy) + '♠ survives! (cards lost)', 'bad');
-    } else if (G.mods && G.mods.ND ? (total === enemy.v) : (total >= enemy.v)) {
-      enemy.defeated = true;
-      addLog(cn(enemy) + '♠ defeated! (' + total + (G.mods && G.mods.ND ? ' = ' : ' ≥ ') + enemy.v + ')', 'good');
-      insertMiddle(G.deck, [{ s: 's', v: enemy.v, id: 's' + enemy.v + '_' + Math.random() }]);
-    } else {
-      if (G.mods && G.mods.ND) {
-        addLog('Attack failed: need exact ' + enemy.v + ', got ' + total + '. ' + cn(enemy) + '♠ survives! (cards lost)', 'bad');
-      } else {
-        addLog('Attack failed: ' + total + ' < ' + enemy.v + '. ' + cn(enemy) + '♠ survives! (cards lost)', 'bad');
-      }
-    }
-
-    G.selected = [];
-    G.targetEnemy = null;
-    render();
-  }
-
-  function healSelf() {
-    if (G.phase !== 'player') return;
-    var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
-    var hearts = sel.filter(function (c) { return c.s === 'h'; });
-    if (hearts.length === 0) { addLog('Select heart (♥) cards to heal.', 'bad'); render(); return; }
-    var total = hearts.reduce(function (a, c) { return a + c.v; }, 0);
-    var mh = G.maxHp || 20;
-    var wouldOverheal = (G.hp + total) > mh;
-    if (wouldOverheal) {
-      if (G.mods && G.mods.VL) { finalizeHeal(hearts, total); return; }
-      openConfirmModal({
-        title: 'CONFIRM HEAL',
-        message: 'This heal exceeds max HP (' + mh + '). Extra healing will be lost. Continue?',
-        confirmText: 'Use Hearts',
-        onConfirm: function () { finalizeHeal(hearts, total); },
-        onCancel: function () {
-          addLog('Heal cancelled. Choose fewer hearts or proceed anyway.', 'neutral');
-          render();
-        }
-      });
-      return;
-    }
-    finalizeHeal(hearts, total);
-  }
-
-  function finalizeHeal(hearts, total) {
-    var mh = G.maxHp || 20;
-    var old = G.hp; G.hp = Math.min(mh, G.hp + total);
-    addLog('Healed +' + (G.hp - old) + ' HP. (' + old + '→' + G.hp + ')', 'good');
-    for (var i = 0; i < hearts.length; i++) consumeCard(hearts[i]);
-    G.selected = [];
-    render();
-    if (G.hp > old) flashHealHud();
-  }
-
-  function assignBlock() {
-    if (G.phase !== 'enemy') return;
-    var enemy = null;
-    for (var i = 0; i < G.enemies.length; i++) { if (G.enemies[i].id === G.targetEnemy && !G.enemies[i].defeated) { enemy = G.enemies[i]; break; } }
-    if (!enemy) { addLog('Select an undefeated enemy to block.', 'bad'); render(); return; }
-    var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
-    var assists = sel.filter(function (c) { return c.s === 'c' || (G.mods && G.mods.VL && c.hidden); });
-    if (assists.length === 0) { addLog('Select assist (♣) cards to block.', 'bad'); render(); return; }
-    if (!G.assistBlocks[enemy.id]) G.assistBlocks[enemy.id] = [];
-    for (var i = 0; i < assists.length; i++) G.assistBlocks[enemy.id].push(assists[i]);
-    var blockVal = assists.reduce(function (a, c) { return a + ((c.s === 'c') ? c.v : 0); }, 0);
-    for (var i = 0; i < assists.length; i++) consumeCard(assists[i]);
-    if (G.mods && G.mods.VL) {
-      var wasted = assists.filter(function (c) { return c.hidden && c.s !== 'c'; }).length;
-      if (wasted > 0) addLog('Veil: ' + wasted + ' faced-down non-♣ card(s) gave 0 block.', 'bad');
-    }
-    addLog('Assigned ' + blockVal + ' block to ' + cn(enemy) + '♠.');
-    G.selected = [];
-    G.targetEnemy = null;
-    render();
-  }
-
-  function endPlayerPhase() {
-    G.phase = 'enemy';
-    G.selected = [];
-    G.targetEnemy = null;
-    addLog('Enemy phase begins.', 'enemy');
-    render();
-  }
-
-  function resolveEnemyPhase() {
-    var active = G.enemies.filter(function (e) { return !e.defeated; });
-    var totalDmg = 0;
-    for (var i = 0; i < active.length; i++) {
-      var e = active[i];
-      var blkArr = G.assistBlocks[e.id] || [];
-      var block = blkArr.reduce(function (a, c) { return a + c.v; }, 0);
-      var dmg = Math.max(0, e.v - block);
-      totalDmg += dmg;
-      if (G.mods && G.mods.VL && e.hidden) {
-        if (dmg > 0) addLog('?♠ deals ? dmg.', 'bad');
-        else addLog('?♠ fully blocked!', 'good');
-      } else {
-        if (dmg > 0) addLog(cn(e) + '♠ deals ' + e.v + '−' + block + '=' + dmg + ' dmg.', 'bad');
-        else addLog(cn(e) + '♠ fully blocked!', 'good');
-      }
-    }
-    G.hp = Math.max(0, G.hp - totalDmg);
-    if (totalDmg > 0) addLog('Total damage: ' + totalDmg + '. HP: ' + G.hp + '.', 'bad');
-    if (G.mods && G.mods.BL) {
-      var rc = Math.floor((G.roundDiamondSum || 0) / 2);
-      if (rc > 0) {
-        G.hp = Math.max(0, G.hp - rc);
-        addLog('Backlash: ⌊' + (G.roundDiamondSum || 0) + ' / 2⌋ = ' + rc + ' self-damage. HP: ' + G.hp + '.', 'bad');
-      } else {
-        addLog('Backlash: no ♦ used this round.', 'neutral');
-      }
-    }
-    if (G.hp <= 0) { endGame(false); return; }
-    var rcDmg = (G.mods && G.mods.BL) ? Math.floor((G.roundDiamondSum || 0) / 2) : 0;
-    G.assistBlocks = {};
-    G.round++;
-    G.phase = 'player';
-    if (G.mode === 'normal' && G.round > 10) { addLog('Round 10 complete — victory!', 'good'); endGame(true); return; }
-    drawRound(false);
-
-    /* AUTO-SORT FIX */
-    if (G.autoSort) {
-      sortHand();
-      G._animateReorder = true;
-    }
-
-    render();
-    if (totalDmg > 0 || rcDmg > 0) flashDamageHud();
-  }
-
-  function endGame(won) {
-    clearSavedGame();
-    document.getElementById('end-title').textContent = won ? 'VICTORY' : 'DEFEATED';
-    document.getElementById('end-msg').textContent = won ? 'You survived all 10 rounds!' : 'The suits overwhelmed you.';
-    document.getElementById('end-rounds').textContent = G.round - 1;
-    var modNames = { BL: 'Backlash', VL: 'Veil', ND: 'Needle', FH: 'Faint Heart', MH: 'Meager Hands', HX: 'Hex' };
-    var activeMods = G.mods ? Object.keys(modNames).filter(function(k) { return G.mods[k]; }) : [];
-    var modsEl = document.getElementById('end-mods');
-    if (activeMods.length > 0) {
-      modsEl.innerHTML = 'MODS: ' + activeMods.map(function(k) {
-        return '<span style="color:var(--gold);margin:0 3px">' + modNames[k] + ' (' + k + ')</span>';
-      }).join('<span style="color:var(--border2)"> · </span>');
-    } else {
-      modsEl.innerHTML = '';
-    }
-    document.getElementById('end-overlay').style.display = 'flex';
-  }
-
-  function render() {
-    var gs = document.getElementById('game-screen');
-    var activeEnemies = G.enemies.filter(function (e) { return !e.defeated; });
-    var selCards = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
-    var selTotal = selCards.reduce(function (a, c) { return a + c.v; }, 0);
-    var selHasHidden = selCards.some(function (c) { return !!c.hidden; });
-    var selHasDiamond = selCards.some(function (c) { return c.s === 'd' && !c.hidden; }) || selCards.some(function (c) { return c.s === 'd' && c.hidden; });
-    var selHasAtk = selCards.some(function (c) { return c.s === 'd' || c.s === 'c'; }) || ((G.mods && G.mods.VL) && selHasHidden);
-    var selHasHeart = selCards.some(function (c) { return c.s === 'h'; }) || ((G.mods && G.mods.VL) && selHasHidden);
-    var selHasAssist = selCards.some(function (c) { return c.s === 'c'; }) || ((G.mods && G.mods.VL) && selHasHidden);
-
-    var dealIdx = 0;
-    var reorderIdx = 0;
-    var handHTML = G.hand.map(function (c) {
-      var isSel = G.selected.indexOf(c.id) >= 0;
-      var isHexed = G.mods && G.mods.HX && c.id === G.hexDisabledCardId;
-      var avail = !isHexed && ((G.phase === 'player' && (c.s === 'd' || c.s === 'c' || c.s === 'h')) || (G.phase === 'enemy' && c.s === 'c') || ((G.mods && G.mods.VL) && c.hidden));
-      var isNew = !G._seenHandIds[c.id];
-      if (isNew) G._seenHandIds[c.id] = true;
-      var styleParts = [];
-      if (isNew) styleParts.push('--deal-delay:' + (dealIdx++) * 0.048 + 's');
-      if (G._animateReorder) styleParts.push('--reorder-delay:' + (reorderIdx++) * 0.02 + 's');
-      var styleAttr = styleParts.length ? ' style="' + styleParts.join(';') + '"' : '';
-      return '<div class="card'
-        + (isSel ? ' selected' : '')
-        + (avail ? ' can-drag' : '')
-        + (avail ? '' : ' unavailable')
-        + (isNew ? ' card--new' : '')
-        + (G._animateReorder ? ' card--reorder' : '')
-        + (G._dropSettleCardId === c.id ? ' drop-settle' : '')
-        + '" data-id="' + c.id + '" draggable="true"' + styleAttr + '>'
-        + '<div class="card-val ' + dcls(c) + '">' + dval(c) + '</div>'
-        + '<div class="card-suit ' + dcls(c) + '">' + dsym(c) + '</div>'
-        + '</div>';
-    }).join('');
-    G._animateReorder = false;
-    G._dropSettleCardId = null;
-
-    var enemyNewIdx = 0;
-    var enemyHTML = G.enemies.map(function (e) {
-      var isTgt = G.targetEnemy === e.id;
-      var blk = (G.assistBlocks[e.id] || []).reduce(function (a, c) { return a + c.v; }, 0);
-      var isNew = !G._seenEnemyIds[e.id];
-      if (isNew) G._seenEnemyIds[e.id] = true;
-      var eDelay = isNew ? ' style="--enemy-delay:' + (enemyNewIdx++) * 0.065 + 's"' : '';
-      var ev = (G.mods && G.mods.VL && e.hidden) ? '?' : cn(e);
-      var estat = (G.mods && G.mods.VL && e.hidden) ? 'ATK ? · HP ?' : ('ATK ' + e.v + ' · HP ' + e.v);
-      return '<div class="enemy-card' + (isTgt ? ' targeted' : '') + (e.defeated ? ' defeated' : '') + (isNew ? ' enemy--new' : '') + '" data-eid="' + e.id + '"' + eDelay + '>'
-        + '<div class="enemy-name">ENEMY ♠</div>'
-        + '<div class="enemy-val">' + ev + '</div>'
-        + '<div class="enemy-stats">' + estat + '</div>'
-        + (blk > 0 ? '<div class="assign-info">Block: ' + blk + '</div>' : '')
-        + (e.defeated ? '<div style="font-size:0.7rem;color:var(--club);margin-top:3px">✓ DEFEATED</div>' : '')
-        + '</div>';
-    }).join('') || '<span style="color:var(--text3);font-size:0.8rem;padding:0.5rem">No enemies.</span>';
-
-    var mh = G.maxHp || 20;
-    var hpPct = (G.hp / mh) * 100;
-
-    // Build tooltip for attack button
-    var atkTip = '';
-    if ((G.mods && G.mods.VL) && selHasHidden && selHasAtk) {
-      atkTip = '<div class="tooltip">Selected total: ?</div>';
-    } else {
-      if (selHasAtk && !selHasDiamond) atkTip = '<div class="tooltip" style="color:var(--diamond)">⚠ No ♦ selected — assists alone cannot defeat enemies.</div>';
-      else if (selTotal > 0) atkTip = '<div class="tooltip">Selected total: ' + selTotal + (selHasDiamond ? ' (includes ♦)' : '') + '</div>';
-    }
-
-    var actionHTML = '';
-    if (G.phase === 'player') {
-      if (G.mods && G.mods.VL) {
-        actionHTML = '<div class="action-panel">'
-          + '<p>' + (G.targetEnemy ? '<span style="color:var(--gold)">Enemy targeted.</span> Select cards and use them.' : 'Select cards, then use them.') + '</p>'
-          + '<div class="action-btns">'
-          + '<button class="btn primary' + (G.selected.length === 0 ? ' off' : '') + '" id="act-use">❓ Use Selected</button>'
-          + '<button class="btn" id="act-end">→ End Player Phase</button>'
-          + '</div>'
-          + '<div class="tooltip">Card identities are hidden.</div>'
-          + '</div>';
-      } else {
-        actionHTML = '<div class="action-panel">'
-          + '<p>' + (G.targetEnemy ? '<span style="color:var(--gold)">Enemy targeted.</span> Select cards then act.' : 'Click an enemy to target it, then select cards.') + '</p>'
-          + '<div class="action-btns">'
-          + '<button class="btn primary' + ((!G.targetEnemy || !selHasAtk) ? ' off' : '') + '" id="act-attack">⚔ Attack Enemy</button>'
-          + '<button class="btn' + (!selHasHeart ? ' off' : '') + '" id="act-heal">♥ Use Hearts</button>'
-          + '<button class="btn" id="act-end">→ End Player Phase</button>'
-          + '</div>'
-          + atkTip
-          + '</div>';
-      }
-    } else if (G.phase === 'enemy') {
-      actionHTML = '<div class="action-panel">'
-        + '<p>' + (G.targetEnemy ? '<span style="color:var(--gold)">Enemy targeted.</span> Select ♣ cards then assign block.' : 'Click an enemy to target it, then select ♣ cards to block.') + '</p>'
-        + '<div class="action-btns">'
-        + '<button class="btn' + (!G.targetEnemy ? ' off' : '') + '" id="act-block">🛡 Assign Block</button>'
-        + '<button class="btn danger" id="act-resolve">⚡ Resolve Enemy Phase</button>'
-        + '</div>'
-        + '</div>';
-    }
-
-    gs.innerHTML = '<div class="title-bar"><h1>SUITFALL</h1><p>ROUND-BASED CARD SURVIVAL</p></div>'
-      + '<div class="hud">'
-      + '<div class="hp-bar-wrap"><div class="hp-label"><span>HP</span><span>' + G.hp + ' / ' + mh + '</span></div>'
-      + '<div class="hp-bar"><div class="hp-fill" style="width:' + hpPct + '%"></div></div></div>'
-      + '<div class="hud-stats">'
-      + '<div class="hud-stat"><strong>' + G.round + '</strong>Round</div>'
-      + '<div class="hud-stat"><strong>' + G.deck.length + '</strong>Deck</div>'
-      + '<div class="hud-stat"><strong>' + G.hand.length + '</strong>Hand</div>'
-      + (G.mode === 'normal' ? '<div class="hud-stat"><strong>' + G.discard.length + '</strong>Discard</div>' : '')
-      + '</div>'
-      + '<div class="action-btns">'
-      + '<button class="btn" id="act-back-menu">↩ Back to Menu</button>'
-      + '</div>'
-      + '<div class="mode-badge">' + (G.mode === 'normal' ? 'NORMAL' : 'INFINITE') + '</div>'
-      + '</div>'
-      + '<div class="phase-bar">'
-      + '<span class="phase-step' + (G.phase === 'player' ? ' active' : '') + '">Player Phase</span>'
-      + '<span class="phase-sep">›</span>'
-      + '<span class="phase-step' + (G.phase === 'enemy' ? ' active' : '') + '">Enemy Phase</span>'
-      + '</div>'
-      + '<div class="section"><div class="section-title">ENEMIES — ' + activeEnemies.length + ' ACTIVE</div>'
-      + '<div class="enemy-wrap" id="enemy-wrap">' + enemyHTML + '</div></div>'
-      + '<div class="section"><div class="section-title">YOUR HAND (' + G.hand.length + ' cards)</div>'
-      + '<div class="card-row" id="hand-row">' + handHTML + '</div>'
-      + '<div class="suit-legend" style="margin-top:6px">'
-      + '<span class="sl"><span style="color:var(--diamond)">♦</span> Attack (required to defeat)</span>'
-      + '<span class="sl"><span style="color:var(--club)">♣</span> Assist</span>'
-      + '<span class="sl"><span style="color:var(--heart)">♥</span> Heal</span>'
-      + '</div></div>'
-      + '<div class="action-btns" style="margin-top:0.35rem">'
-      + '<button class="btn' + ((G.mods && G.mods.VL) ? ' off' : (G.autoSort ? ' primary' : '')) + '" id="act-toggle-autosort">' + ((G.mods && G.mods.VL) ? 'Auto-sort disabled (VL)' : 'Auto-sort: ' + (G.autoSort ? 'ON' : 'OFF')) + '</button>'
-      + '<button class="btn' + ((G.mods && G.mods.VL) ? ' off' : '') + '" id="act-sort-now">' + ((G.mods && G.mods.VL) ? 'Sort disabled (VL)' : '⇅ Sort Now') + '</button>'
-      + '</div>'
-      + actionHTML
-      + '<div class="section"><div class="section-title">BATTLE LOG</div>'
-      + '<div class="log-wrap">' + G.log.map(function (l) { return '<div class="log-entry ' + l.cls + '">' + l.msg + '</div>'; }).join('') + '</div></div>';
-
-    var handRow = document.getElementById('hand-row');
-    if (handRow) {
-      handRow.addEventListener('click', function (e) {
-        var card = e.target.closest('.card');
-        if (card && !card.classList.contains('unavailable')) selectCard(card.dataset.id);
-      });
-      handRow.addEventListener('dragstart', function (e) {
-        var card = e.target.closest('.card');
-        if (!card) return;
-        handRow.classList.add('drag-active');
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', card.dataset.id);
-        if (!dragProxyPixel) {
-          dragProxyPixel = new Image();
-          dragProxyPixel.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-        }
-        e.dataTransfer.setDragImage(dragProxyPixel, 0, 0);
-        setDragProxyFromCard(card);
-        moveDragProxy(e);
-        card.classList.add('dragging');
-      });
-      handRow.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        moveDragProxy(e);
-        var card = e.target.closest('.card');
-        // Keep current insertion marker when hovering the temporary gap.
-        if (!card) return;
-        handRow.querySelectorAll('.card.drag-over').forEach(function (el) { el.classList.remove('drag-over'); });
-        card.classList.add('drag-over');
-      });
-      handRow.addEventListener('drop', function (e) {
-        var target = e.target.closest('.card') || handRow.querySelector('.card.drag-over');
-        if (!target) return;
-        e.preventDefault();
-        var draggedId = e.dataTransfer.getData('text/plain');
-        moveCardInHand(draggedId, target.dataset.id);
-        G._animateReorder = true;
-        G._dropSettleCardId = draggedId;
-        render();
-      });
-      handRow.addEventListener('dragend', function () {
-        handRow.classList.remove('drag-active');
-        handRow.querySelectorAll('.card.dragging,.card.drag-over').forEach(function (el) {
-          el.classList.remove('dragging');
-          el.classList.remove('drag-over');
-        });
-        hideDragProxy();
-      });
-    }
-    var enemyWrap = document.getElementById('enemy-wrap');
-    if (enemyWrap) enemyWrap.addEventListener('click', function (e) {
-      var ec = e.target.closest('.enemy-card');
-      if (ec && !ec.classList.contains('defeated')) selectEnemy(ec.dataset.eid);
-    });
-    var aa = document.getElementById('act-attack');
-    if (aa) aa.addEventListener('click', attackEnemy);
-    var ah = document.getElementById('act-heal');
-    if (ah) ah.addEventListener('click', healSelf);
-    var au = document.getElementById('act-use');
-    if (au) au.addEventListener('click', function () {
-
-      var sel = G.selected.map(function (id) {
-        for (var i = 0; i < G.hand.length; i++) {
-          if (G.hand[i].id === id) return G.hand[i];
-        }
-        return null;
-      }).filter(Boolean);
-
-      if (sel.length === 0) {
-        addLog('Select cards first.', 'bad');
-        render();
-        return;
-      }
-
-      var hasHeart = sel.some(function (c) { return c.s === 'h'; });
-      var hasAtk = sel.some(function (c) { return c.s === 'd' || c.s === 'c'; });
-
-      // If targeting enemy → treat as attack
-      if (G.targetEnemy && hasAtk) {
-        attackEnemy();
-        return;
-      }
-
-      // Otherwise if hearts → heal
-      if (hasHeart) {
-        healSelf();
-        return;
-      }
-
-      // Fallback (unknown / useless combo)
-      addLog('The selected cards had no effect.', 'neutral');
+    function drawRound(firstRound) {
       G.selected = [];
-      render();
-    });
-    var ae = document.getElementById('act-end');
-    if (ae) ae.addEventListener('click', endPlayerPhase);
-    var ab = document.getElementById('act-block');
-    if (ab) ab.addEventListener('click', assignBlock);
-    var ar = document.getElementById('act-resolve');
-    if (ar) ar.addEventListener('click', resolveEnemyPhase);
-    var as = document.getElementById('act-sort-now');
-    if (as) as.addEventListener('click', function () {
-      sortHand();
-      G._animateReorder = true;
-      render();
-    });
-    var at = document.getElementById('act-toggle-autosort');
-    if (at) at.addEventListener('click', function () {
+      G.targetEnemy = null;
+      G.assistBlocks = {};
+      G.roundDiamondSum = 0;
+
+      var drawn = [];
+      var dc = G.drawCount || 5;
+      for (var i = 0; i < dc && G.deck.length > 0; i++) drawn.push(G.deck.pop());
+
+      if (firstRound && G.mods && G.mods.HS) {
+        // Head Start round 1: strip all spades from the initial draw and replace
+        // them one-for-one with non-spade cards so the player always gets exactly
+        // drawCount hand cards and zero enemies on round 1.
+        var spades = drawn.filter(function (c) { return c.s === 's'; });
+        drawn = drawn.filter(function (c) { return c.s !== 's'; });
+
+        // Return stripped spades to a random middle position in the deck.
+        insertMiddle(G.deck, spades);
+
+        // Draw replacements, skipping any additional spades we happen to hit
+        // (those get reinserted into the middle so they surface naturally later).
+        var attempts = 0;
+        while (drawn.length < dc && G.deck.length > 0 && attempts < 52) {
+          var c = G.deck.pop();
+          if (c.s === 's') {
+            insertMiddle(G.deck, [c]);
+          } else {
+            drawn.push(c);
+          }
+          attempts++;
+        }
+
+      } else if (firstRound) {
+        // Normal first-round guarantee: reshuffle until at least one spade appears.
+        var attempts = 0;
+        while (!drawn.some(function (c) { return c.s === 's'; }) && G.deck.length > 0 && attempts < 10) {
+          for (var k = 0; k < drawn.length; k++) G.deck.push(drawn[k]);
+          shuffle(G.deck); drawn = [];
+          for (var i = 0; i < dc && G.deck.length > 0; i++) drawn.push(G.deck.pop());
+          attempts++;
+        }
+      }
+
+      // Head Start: guarantee at least one enemy on round 2.
+      if (!firstRound && G.round === 2 && G.mods && G.mods.HS) {
+        var attempts = 0;
+        while (!drawn.some(function (c) { return c.s === 's'; }) && G.deck.length > 0 && attempts < 10) {
+          for (var k = 0; k < drawn.length; k++) G.deck.push(drawn[k]);
+          shuffle(G.deck); drawn = [];
+          for (var i = 0; i < dc && G.deck.length > 0; i++) drawn.push(G.deck.pop());
+          attempts++;
+        }
+      }
+
       if (G.mods && G.mods.VL) {
-        addLog('Veil disables auto-sort.', 'neutral');
-        render();
-        return;
+        for (var b = 0; b < drawn.length; b++) {
+          if (Math.floor(Math.random() * 7) === 0) drawn[b].hidden = true;
+        }
       }
 
-      G.autoSort = !G.autoSort;
+      var newEnemies = drawn.filter(function (c) { return c.s === 's'; }).map(function (c) {
+        return { s: c.s, v: c.v, hidden: !!c.hidden, id: c.s + c.v + '_' + Math.random(), defeated: false };
+      });
+      var newHandCards = drawn.filter(function (c) { return c.s !== 's'; });
+      var carried = G.enemies.filter(function (e) { return !e.defeated; });
+      G.enemies = carried.concat(newEnemies);
+      G.hand = G.hand.concat(newHandCards);
+      if (G.autoSort) { sortHand(); G._animateReorder = true; }
 
-      if (G.autoSort) {
-        sortHand();
-        G._animateReorder = true;
-        addLog('Auto-sort enabled. Hand sorted.', 'neutral');
-      } else {
-        addLog('Auto-sort disabled.', 'neutral');
+      G.hexDisabledCardId = null;
+      if (G.mods && G.mods.HX && G.hand.length > 0) {
+        var eligibleHand = G.hand.filter(function (c) { return c.s !== 's'; });
+        if (eligibleHand.length > 0) {
+          var hexCard = eligibleHand[Math.floor(Math.random() * eligibleHand.length)];
+          G.hexDisabledCardId = hexCard.id;
+          addLog('Hex: ' + (hexCard.hidden ? '?' : (function () { var m = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' }; return m[hexCard.v] || String(hexCard.v); })()) + (hexCard.hidden ? '' : ({ s: '♠', d: '♦', c: '♣', h: '♥' }[hexCard.s])) + ' is hexed and cannot be used this round.', 'bad');
+        }
       }
 
+      addLog('Round ' + G.round + ': drew ' + newEnemies.length + ' new enem' + (newEnemies.length === 1 ? 'y' : 'ies') + (carried.length > 0 ? ' + ' + carried.length + ' carried over' : '') + '.');
+    }
+
+    function moveCardInHand(dragId, targetId) {
+      if (!dragId || !targetId || dragId === targetId) return;
+      var from = -1, to = -1;
+      for (var i = 0; i < G.hand.length; i++) {
+        if (G.hand[i].id === dragId) from = i;
+        if (G.hand[i].id === targetId) to = i;
+      }
+      if (from < 0 || to < 0 || from === to) return;
+      var moved = G.hand.splice(from, 1)[0];
+      if (from < to) to--;
+      G.hand.splice(to, 0, moved);
+    }
+
+    function ensureDragProxy() {
+      if (!dragProxyEl) { dragProxyEl = document.createElement('div'); dragProxyEl.className = 'drag-proxy'; document.body.appendChild(dragProxyEl); }
+    }
+
+    function setDragProxyFromCard(card) { ensureDragProxy(); dragProxyEl.innerHTML = card.innerHTML; }
+    function moveDragProxy(e) { if (!dragProxyEl) return; dragProxyEl.style.transform = 'translate(' + (e.clientX + 14) + 'px,' + (e.clientY + 10) + 'px) scale(1.04) rotate(-2deg)'; }
+    function hideDragProxy() { if (!dragProxyEl) return; dragProxyEl.style.transform = 'translate(-9999px,-9999px)'; }
+
+    function selectCard(id) {
+      var idx = G.selected.indexOf(id);
+      if (idx >= 0) G.selected.splice(idx, 1); else G.selected.push(id);
       render();
-    });
-    var am = document.getElementById('act-back-menu');
-    if (am) am.addEventListener('click', openMenuModal);
-  }
+    }
 
-  updateContinueButton();
-</script>
+    function selectEnemy(id) { G.targetEnemy = G.targetEnemy === id ? null : id; render(); }
+
+    function attackEnemy() {
+      if (!G.targetEnemy || G.phase !== 'player') return;
+      var enemy = null;
+      for (var i = 0; i < G.enemies.length; i++) { if (G.enemies[i].id === G.targetEnemy && !G.enemies[i].defeated) { enemy = G.enemies[i]; break; } }
+      if (!enemy) { addLog('No valid target.', 'bad'); render(); return; }
+      var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
+      var valid = sel.filter(function (c) { return c.s === 'd' || c.s === 'c'; });
+      if (valid.length === 0) { addLog('Select attack (♦) or assist (♣) cards.', 'bad'); render(); return; }
+      var hasDiamond = valid.some(function (c) { return c.s === 'd'; });
+      var total = valid.reduce(function (a, c) { return a + c.v; }, 0);
+      var hasHiddenAttack = valid.some(function (c) { return !!c.hidden; });
+      if (!hasHiddenAttack && !hasDiamond) {
+        if (G.mods && G.mods.VL) { finalizeAttack(enemy, valid, hasDiamond, total); return; }
+        openConfirmModal({
+          title: 'CONFIRM ATTACK', message: 'No ♦ selected. Assists alone cannot defeat enemies and the selected cards will be lost. Continue?', confirmText: 'Proceed',
+          onConfirm: function () { finalizeAttack(enemy, valid, hasDiamond, total); },
+          onCancel: function () { addLog('Attack cancelled. Select at least one ♦ to defeat enemies.', 'neutral'); render(); }
+        }); return;
+      }
+      if (!hasHiddenAttack && total < enemy.v) {
+        if (G.mods && G.mods.VL) { finalizeAttack(enemy, valid, hasDiamond, total); return; }
+        openConfirmModal({
+          title: 'WEAK ATTACK', message: 'Your selected total (' + total + ') is below ' + cn(enemy) + '♠ HP (' + enemy.v + '). This attack will fail and cards will be lost. Continue?', confirmText: 'Attack Anyway',
+          onConfirm: function () { finalizeAttack(enemy, valid, hasDiamond, total); },
+          onCancel: function () { addLog('Attack cancelled. Increase total damage before attacking.', 'neutral'); render(); }
+        }); return;
+      }
+      finalizeAttack(enemy, valid, hasDiamond, total);
+    }
+
+    function finalizeAttack(enemy, valid, hasDiamond, total) {
+      if (G.mods && G.mods.BL) {
+        for (var j = 0; j < valid.length; j++) {
+          if (valid[j].s === 'd') G.roundDiamondSum = (G.roundDiamondSum || 0) + valid[j].v;
+        }
+      }
+      for (var i = 0; i < valid.length; i++) consumeCard(valid[i]);
+      if (!hasDiamond) {
+        addLog('No ♦ in attack — assists alone cannot defeat. ' + cn(enemy) + '♠ survives! (cards lost)', 'bad');
+      } else if (G.mods && G.mods.ND ? (total === enemy.v) : (total >= enemy.v)) {
+        enemy.defeated = true;
+        addLog(cn(enemy) + '♠ defeated! (' + total + (G.mods && G.mods.ND ? ' = ' : ' ≥ ') + enemy.v + ')', 'good');
+        insertMiddle(G.deck, [{ s: 's', v: enemy.v, id: 's' + enemy.v + '_' + Math.random() }]);
+      } else {
+        if (G.mods && G.mods.ND) {
+          addLog('Attack failed: need exact ' + enemy.v + ', got ' + total + '. ' + cn(enemy) + '♠ survives! (cards lost)', 'bad');
+        } else {
+          addLog('Attack failed: ' + total + ' < ' + enemy.v + '. ' + cn(enemy) + '♠ survives! (cards lost)', 'bad');
+        }
+      }
+      G.selected = []; G.targetEnemy = null; render();
+    }
+
+    function healSelf() {
+      if (G.phase !== 'player') return;
+      var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
+      var hearts = sel.filter(function (c) { return c.s === 'h'; });
+      if (hearts.length === 0) { addLog('Select heart (♥) cards to heal.', 'bad'); render(); return; }
+      var total = hearts.reduce(function (a, c) { return a + c.v; }, 0);
+      var mh = G.maxHp || 20;
+      var wouldOverheal = (G.hp + total) > mh;
+      if (wouldOverheal) {
+        if (G.mods && G.mods.VL) { finalizeHeal(hearts, total); return; }
+        openConfirmModal({
+          title: 'CONFIRM HEAL', message: 'This heal exceeds max HP (' + mh + '). Extra healing will be lost. Continue?', confirmText: 'Use Hearts',
+          onConfirm: function () { finalizeHeal(hearts, total); },
+          onCancel: function () { addLog('Heal cancelled. Choose fewer hearts or proceed anyway.', 'neutral'); render(); }
+        }); return;
+      }
+      finalizeHeal(hearts, total);
+    }
+
+    function finalizeHeal(hearts, total) {
+      var mh = G.maxHp || 20; var old = G.hp; G.hp = Math.min(mh, G.hp + total);
+      addLog('Healed +' + (G.hp - old) + ' HP. (' + old + '→' + G.hp + ')', 'good');
+      for (var i = 0; i < hearts.length; i++) consumeCard(hearts[i]);
+      G.selected = []; render();
+      if (G.hp > old) flashHealHud();
+    }
+
+    function assignBlock() {
+      if (G.phase !== 'enemy') return;
+      var enemy = null;
+      for (var i = 0; i < G.enemies.length; i++) { if (G.enemies[i].id === G.targetEnemy && !G.enemies[i].defeated) { enemy = G.enemies[i]; break; } }
+      if (!enemy) { addLog('Select an undefeated enemy to block.', 'bad'); render(); return; }
+      var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
+      var assists = sel.filter(function (c) { return c.s === 'c' || (G.mods && G.mods.VL && c.hidden); });
+      if (assists.length === 0) { addLog('Select assist (♣) cards to block.', 'bad'); render(); return; }
+      if (!G.assistBlocks[enemy.id]) G.assistBlocks[enemy.id] = [];
+      for (var i = 0; i < assists.length; i++) G.assistBlocks[enemy.id].push(assists[i]);
+      var blockVal = assists.reduce(function (a, c) { return a + ((c.s === 'c') ? c.v : 0); }, 0);
+      for (var i = 0; i < assists.length; i++) consumeCard(assists[i]);
+      if (G.mods && G.mods.VL) {
+        var wasted = assists.filter(function (c) { return c.hidden && c.s !== 'c'; }).length;
+        if (wasted > 0) addLog('Veil: ' + wasted + ' faced-down non-♣ card(s) gave 0 block.', 'bad');
+      }
+      addLog('Assigned ' + blockVal + ' block to ' + cn(enemy) + '♠.');
+      G.selected = []; G.targetEnemy = null; render();
+    }
+
+    function endPlayerPhase() {
+      G.phase = 'enemy'; G.selected = []; G.targetEnemy = null;
+      addLog('Enemy phase begins.', 'enemy'); render();
+    }
+
+    function resolveEnemyPhase() {
+      var active = G.enemies.filter(function (e) { return !e.defeated; });
+      var totalDmg = 0;
+      for (var i = 0; i < active.length; i++) {
+        var e = active[i];
+        var blkArr = G.assistBlocks[e.id] || [];
+        var block = blkArr.reduce(function (a, c) { return a + c.v; }, 0);
+        var dmg = Math.max(0, e.v - block);
+        totalDmg += dmg;
+        if (G.mods && G.mods.VL && e.hidden) {
+          if (dmg > 0) addLog('?♠ deals ? dmg.', 'bad'); else addLog('?♠ fully blocked!', 'good');
+        } else {
+          if (dmg > 0) addLog(cn(e) + '♠ deals ' + e.v + '−' + block + '=' + dmg + ' dmg.', 'bad');
+          else addLog(cn(e) + '♠ fully blocked!', 'good');
+        }
+      }
+      G.hp = Math.max(0, G.hp - totalDmg);
+      if (totalDmg > 0) addLog('Total damage: ' + totalDmg + '. HP: ' + G.hp + '.', 'bad');
+      var rcDmg = 0;
+      if (G.mods && G.mods.BL) {
+        rcDmg = Math.floor((G.roundDiamondSum || 0) / 2);
+        if (rcDmg > 0) {
+          G.hp = Math.max(0, G.hp - rcDmg);
+          addLog('Backlash: ⌊' + (G.roundDiamondSum || 0) + ' / 2⌋ = ' + rcDmg + ' self-damage. HP: ' + G.hp + '.', 'bad');
+        } else {
+          addLog('Backlash: no ♦ used this round.', 'neutral');
+        }
+      }
+      if (G.hp <= 0) { endGame(false); return; }
+      G.assistBlocks = {};
+      G.round++;
+      G.phase = 'player';
+
+      if (G.mode === 'normal' && G.round > winRound()) {
+        addLog('Round ' + winRound() + ' complete — victory!', 'good');
+        endGame(true); return;
+      }
+
+      drawRound(false);
+      if (G.autoSort) { sortHand(); G._animateReorder = true; }
+      render();
+      if (totalDmg > 0 || rcDmg > 0) flashDamageHud();
+    }
+
+    function endGame(won) {
+      clearSavedGame();
+      var wr = winRound();
+      document.getElementById('end-title').textContent = won ? 'VICTORY' : 'DEFEATED';
+      document.getElementById('end-msg').textContent = won ? 'You survived all ' + wr + ' rounds!' : 'The suits overwhelmed you.';
+      document.getElementById('end-rounds').textContent = G.round - 1;
+      var modNames = { BL: 'Backlash', VL: 'Veil', ND: 'Needle', FH: 'Faint Heart', MH: 'Meager Hands', HX: 'Hex', SP: 'Sprint', HS: 'Head Start' };
+      var activeMods = G.mods ? Object.keys(modNames).filter(function (k) { return G.mods[k]; }) : [];
+      var modsEl = document.getElementById('end-mods');
+      if (activeMods.length > 0) {
+        modsEl.innerHTML = 'MODS: ' + activeMods.map(function (k) {
+          return '<span style="color:var(--gold);margin:0 3px">' + modNames[k] + ' (' + k + ')</span>';
+        }).join('<span style="color:var(--border2)"> · </span>');
+      } else { modsEl.innerHTML = ''; }
+      document.getElementById('end-overlay').style.display = 'flex';
+    }
+
+    function render() {
+      var gs = document.getElementById('game-screen');
+      var activeEnemies = G.enemies.filter(function (e) { return !e.defeated; });
+      var selCards = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
+      var selTotal = selCards.reduce(function (a, c) { return a + c.v; }, 0);
+      var selHasHidden = selCards.some(function (c) { return !!c.hidden; });
+      var selHasDiamond = selCards.some(function (c) { return c.s === 'd'; });
+      var selHasAtk = selCards.some(function (c) { return c.s === 'd' || c.s === 'c'; }) || ((G.mods && G.mods.VL) && selHasHidden);
+      var selHasHeart = selCards.some(function (c) { return c.s === 'h'; }) || ((G.mods && G.mods.VL) && selHasHidden);
+
+      var dealIdx = 0, reorderIdx = 0;
+      var handHTML = G.hand.map(function (c) {
+        var isSel = G.selected.indexOf(c.id) >= 0;
+        var isHexed = G.mods && G.mods.HX && c.id === G.hexDisabledCardId;
+        var avail = !isHexed && ((G.phase === 'player' && (c.s === 'd' || c.s === 'c' || c.s === 'h')) || (G.phase === 'enemy' && c.s === 'c') || ((G.mods && G.mods.VL) && c.hidden));
+        var isNew = !G._seenHandIds[c.id];
+        if (isNew) G._seenHandIds[c.id] = true;
+        var styleParts = [];
+        if (isNew) styleParts.push('--deal-delay:' + (dealIdx++) * 0.048 + 's');
+        if (G._animateReorder) styleParts.push('--reorder-delay:' + (reorderIdx++) * 0.02 + 's');
+        var styleAttr = styleParts.length ? ' style="' + styleParts.join(';') + '"' : '';
+        return '<div class="card'
+          + (isSel ? ' selected' : '') + (avail ? ' can-drag' : '') + (avail ? '' : ' unavailable')
+          + (isNew ? ' card--new' : '') + (G._animateReorder ? ' card--reorder' : '')
+          + (G._dropSettleCardId === c.id ? ' drop-settle' : '')
+          + '" data-id="' + c.id + '" draggable="true"' + styleAttr + '>'
+          + '<div class="card-val ' + dcls(c) + '">' + dval(c) + '</div>'
+          + '<div class="card-suit ' + dcls(c) + '">' + dsym(c) + '</div>'
+          + '</div>';
+      }).join('');
+      G._animateReorder = false; G._dropSettleCardId = null;
+
+      var enemyNewIdx = 0;
+      var enemyHTML = G.enemies.map(function (e) {
+        var isTgt = G.targetEnemy === e.id;
+        var blk = (G.assistBlocks[e.id] || []).reduce(function (a, c) { return a + c.v; }, 0);
+        var isNew = !G._seenEnemyIds[e.id];
+        if (isNew) G._seenEnemyIds[e.id] = true;
+        var eDelay = isNew ? ' style="--enemy-delay:' + (enemyNewIdx++) * 0.065 + 's"' : '';
+        var ev = (G.mods && G.mods.VL && e.hidden) ? '?' : cn(e);
+        var estat = (G.mods && G.mods.VL && e.hidden) ? 'ATK ? · HP ?' : ('ATK ' + e.v + ' · HP ' + e.v);
+        return '<div class="enemy-card' + (isTgt ? ' targeted' : '') + (e.defeated ? ' defeated' : '') + (isNew ? ' enemy--new' : '') + '" data-eid="' + e.id + '"' + eDelay + '>'
+          + '<div class="enemy-name">ENEMY ♠</div>'
+          + '<div class="enemy-val">' + ev + '</div>'
+          + '<div class="enemy-stats">' + estat + '</div>'
+          + (blk > 0 ? '<div class="assign-info">Block: ' + blk + '</div>' : '')
+          + (e.defeated ? '<div style="font-size:.7rem;color:var(--club);margin-top:3px">✓ DEFEATED</div>' : '')
+          + '</div>';
+      }).join('') || '<span style="color:var(--text3);font-size:.8rem;padding:.5rem">No enemies.</span>';
+
+      var mh = G.maxHp || 20;
+      var hpPct = (G.hp / mh) * 100;
+      var wr = winRound();
+
+      var atkTip = '';
+      if ((G.mods && G.mods.VL) && selHasHidden && selHasAtk) {
+        atkTip = '<div class="tooltip">Selected total: ?</div>';
+      } else {
+        if (selHasAtk && !selHasDiamond) atkTip = '<div class="tooltip" style="color:var(--diamond)">⚠ No ♦ selected — assists alone cannot defeat enemies.</div>';
+        else if (selTotal > 0) atkTip = '<div class="tooltip">Selected total: ' + selTotal + (selHasDiamond ? ' (includes ♦)' : '') + '</div>';
+      }
+
+      var actionHTML = '';
+      if (G.phase === 'player') {
+        if (G.mods && G.mods.VL) {
+          actionHTML = '<div class="action-panel">'
+            + '<p>' + (G.targetEnemy ? '<span style="color:var(--gold)">Enemy targeted.</span> Select cards and use them.' : 'Select cards, then use them.') + '</p>'
+            + '<div class="action-btns">'
+            + '<button class="btn primary' + (G.selected.length === 0 ? ' off' : '') + '" id="act-use">❓ Use Selected</button>'
+            + '<button class="btn" id="act-end">→ End Player Phase</button>'
+            + '</div><div class="tooltip">Card identities are hidden.</div></div>';
+        } else {
+          actionHTML = '<div class="action-panel">'
+            + '<p>' + (G.targetEnemy ? '<span style="color:var(--gold)">Enemy targeted.</span> Select cards then act.' : 'Click an enemy to target it, then select cards.') + '</p>'
+            + '<div class="action-btns">'
+            + '<button class="btn primary' + ((!G.targetEnemy || !selHasAtk) ? ' off' : '') + '" id="act-attack">⚔ Attack Enemy</button>'
+            + '<button class="btn' + (!selHasHeart ? ' off' : '') + '" id="act-heal">♥ Use Hearts</button>'
+            + '<button class="btn" id="act-end">→ End Player Phase</button>'
+            + '</div>' + atkTip + '</div>';
+        }
+      } else if (G.phase === 'enemy') {
+        actionHTML = '<div class="action-panel">'
+          + '<p>' + (G.targetEnemy ? '<span style="color:var(--gold)">Enemy targeted.</span> Select ♣ cards then assign block.' : 'Click an enemy to target it, then select ♣ cards to block.') + '</p>'
+          + '<div class="action-btns">'
+          + '<button class="btn' + (!G.targetEnemy ? ' off' : '') + '" id="act-block">🛡 Assign Block</button>'
+          + '<button class="btn danger" id="act-resolve">⚡ Resolve Enemy Phase</button>'
+          + '</div></div>';
+      }
+
+      var modeBadgeText = G.mode === 'normal'
+        ? ('NORMAL' + (G.mods && G.mods.SP ? ' · SPRINT' : ''))
+        : 'INFINITE';
+      var roundProgress = G.mode === 'normal'
+        ? ' <span style="font-size:.7rem;color:var(--text3)">(' + G.round + '/' + wr + ')</span>'
+        : '';
+
+      gs.innerHTML = '<div class="title-bar"><h1>SUITFALL</h1><p>ROUND-BASED CARD SURVIVAL</p></div>'
+        + '<div class="hud">'
+        + '<div class="hp-bar-wrap"><div class="hp-label"><span>HP</span><span>' + G.hp + ' / ' + mh + '</span></div>'
+        + '<div class="hp-bar"><div class="hp-fill" style="width:' + hpPct + '%"></div></div></div>'
+        + '<div class="hud-stats">'
+        + '<div class="hud-stat"><strong>' + G.round + '</strong>Round' + roundProgress + '</div>'
+        + '<div class="hud-stat"><strong>' + G.deck.length + '</strong>Deck</div>'
+        + '<div class="hud-stat"><strong>' + G.hand.length + '</strong>Hand</div>'
+        + (G.mode === 'normal' ? '<div class="hud-stat"><strong>' + G.discard.length + '</strong>Discard</div>' : '')
+        + '</div>'
+        + '<div class="action-btns"><button class="btn" id="act-back-menu">↩ Back to Menu</button></div>'
+        + '<div class="mode-badge">' + modeBadgeText + '</div>'
+        + '</div>'
+        + '<div class="phase-bar">'
+        + '<span class="phase-step' + (G.phase === 'player' ? ' active' : '') + '">Player Phase</span>'
+        + '<span class="phase-sep">›</span>'
+        + '<span class="phase-step' + (G.phase === 'enemy' ? ' active' : '') + '">Enemy Phase</span>'
+        + '</div>'
+        + '<div class="section"><div class="section-title">ENEMIES — ' + activeEnemies.length + ' ACTIVE</div>'
+        + '<div class="enemy-wrap" id="enemy-wrap">' + enemyHTML + '</div></div>'
+        + '<div class="section"><div class="section-title">YOUR HAND (' + G.hand.length + ' cards)</div>'
+        + '<div class="card-row" id="hand-row">' + handHTML + '</div>'
+        + '<div class="suit-legend" style="margin-top:6px">'
+        + '<span class="sl"><span style="color:var(--diamond)">♦</span> Attack (required to defeat)</span>'
+        + '<span class="sl"><span style="color:var(--club)">♣</span> Assist</span>'
+        + '<span class="sl"><span style="color:var(--heart)">♥</span> Heal</span>'
+        + '</div></div>'
+        + '<div class="action-btns" style="margin-top:.35rem">'
+        + '<button class="btn' + ((G.mods && G.mods.VL) ? ' off' : (G.autoSort ? ' primary' : '')) + '" id="act-toggle-autosort">' + ((G.mods && G.mods.VL) ? 'Auto-sort disabled (VL)' : 'Auto-sort: ' + (G.autoSort ? 'ON' : 'OFF')) + '</button>'
+        + '<button class="btn' + ((G.mods && G.mods.VL) ? ' off' : '') + '" id="act-sort-now">' + ((G.mods && G.mods.VL) ? 'Sort disabled (VL)' : '⇅ Sort Now') + '</button>'
+        + '</div>'
+        + actionHTML
+        + '<div class="section"><div class="section-title">BATTLE LOG</div>'
+        + '<div class="log-wrap">' + G.log.map(function (l) { return '<div class="log-entry ' + l.cls + '">' + l.msg + '</div>'; }).join('') + '</div></div>';
+
+      var handRow = document.getElementById('hand-row');
+      if (handRow) {
+        handRow.addEventListener('click', function (e) {
+          var card = e.target.closest('.card');
+          if (card && !card.classList.contains('unavailable')) selectCard(card.dataset.id);
+        });
+        handRow.addEventListener('dragstart', function (e) {
+          var card = e.target.closest('.card');
+          if (!card) return;
+          handRow.classList.add('drag-active');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', card.dataset.id);
+          if (!dragProxyPixel) {
+            dragProxyPixel = new Image();
+            dragProxyPixel.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+          }
+          e.dataTransfer.setDragImage(dragProxyPixel, 0, 0);
+          setDragProxyFromCard(card); moveDragProxy(e); card.classList.add('dragging');
+        });
+        handRow.addEventListener('dragover', function (e) {
+          e.preventDefault(); e.dataTransfer.dropEffect = 'move'; moveDragProxy(e);
+          var card = e.target.closest('.card');
+          if (!card) return;
+          handRow.querySelectorAll('.card.drag-over').forEach(function (el) { el.classList.remove('drag-over'); });
+          card.classList.add('drag-over');
+        });
+        handRow.addEventListener('drop', function (e) {
+          var target = e.target.closest('.card') || handRow.querySelector('.card.drag-over');
+          if (!target) return;
+          e.preventDefault();
+          var draggedId = e.dataTransfer.getData('text/plain');
+          moveCardInHand(draggedId, target.dataset.id);
+          G._animateReorder = true; G._dropSettleCardId = draggedId; render();
+        });
+        handRow.addEventListener('dragend', function () {
+          handRow.classList.remove('drag-active');
+          handRow.querySelectorAll('.card.dragging,.card.drag-over').forEach(function (el) { el.classList.remove('dragging'); el.classList.remove('drag-over'); });
+          hideDragProxy();
+        });
+      }
+
+      var enemyWrap = document.getElementById('enemy-wrap');
+      if (enemyWrap) enemyWrap.addEventListener('click', function (e) {
+        var ec = e.target.closest('.enemy-card');
+        if (ec && !ec.classList.contains('defeated')) selectEnemy(ec.dataset.eid);
+      });
+
+      var aa = document.getElementById('act-attack'); if (aa) aa.addEventListener('click', attackEnemy);
+      var ah = document.getElementById('act-heal'); if (ah) ah.addEventListener('click', healSelf);
+      var au = document.getElementById('act-use');
+      if (au) au.addEventListener('click', function () {
+        var sel = G.selected.map(function (id) { for (var i = 0; i < G.hand.length; i++) { if (G.hand[i].id === id) return G.hand[i]; } return null; }).filter(Boolean);
+        if (sel.length === 0) { addLog('Select cards first.', 'bad'); render(); return; }
+        var hasHeart = sel.some(function (c) { return c.s === 'h'; });
+        var hasAtk = sel.some(function (c) { return c.s === 'd' || c.s === 'c'; });
+        if (G.targetEnemy && hasAtk) { attackEnemy(); return; }
+        if (hasHeart) { healSelf(); return; }
+        addLog('The selected cards had no effect.', 'neutral'); G.selected = []; render();
+      });
+      var ae = document.getElementById('act-end'); if (ae) ae.addEventListener('click', endPlayerPhase);
+      var ab = document.getElementById('act-block'); if (ab) ab.addEventListener('click', assignBlock);
+      var ar = document.getElementById('act-resolve'); if (ar) ar.addEventListener('click', resolveEnemyPhase);
+      var as = document.getElementById('act-sort-now');
+      if (as) as.addEventListener('click', function () { sortHand(); G._animateReorder = true; render(); });
+      var at = document.getElementById('act-toggle-autosort');
+      if (at) at.addEventListener('click', function () {
+        if (G.mods && G.mods.VL) { addLog('Veil disables auto-sort.', 'neutral'); render(); return; }
+        G.autoSort = !G.autoSort;
+        if (G.autoSort) { sortHand(); G._animateReorder = true; addLog('Auto-sort enabled. Hand sorted.', 'neutral'); }
+        else { addLog('Auto-sort disabled.', 'neutral'); }
+        render();
+      });
+      var am = document.getElementById('act-back-menu'); if (am) am.addEventListener('click', openMenuModal);
+    }
+
+    updateContinueButton();
+  </script>
+
+</html>
