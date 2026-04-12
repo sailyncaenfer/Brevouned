@@ -24,10 +24,10 @@
       --text: #e8e4d8;
       --text2: #a09898;
       --text3: #6a6480;
-      --spade: #c8a2c8;
-      --diamond: #e86060;
-      --club: #7ec8a8;
-      --heart: #e87070;
+      --spade: #6b63b6;
+      --diamond: #f37d25;
+      --club: #2d9388;
+      --heart: #ff5055;
       --gold: #c8a850;
       --gold2: #e8c870;
       --hp-green: #4aaa60;
@@ -802,20 +802,45 @@
       animation: log-line-in .35s ease-out both
     }
 
-    .log-entry:nth-child(1) { animation-delay: 0s }
-    .log-entry:nth-child(2) { animation-delay: .03s }
-    .log-entry:nth-child(3) { animation-delay: .06s }
-    .log-entry:nth-child(4) { animation-delay: .09s }
-    .log-entry:nth-child(5) { animation-delay: .12s }
+    .log-entry:nth-child(1) {
+      animation-delay: 0s
+    }
+
+    .log-entry:nth-child(2) {
+      animation-delay: .03s
+    }
+
+    .log-entry:nth-child(3) {
+      animation-delay: .06s
+    }
+
+    .log-entry:nth-child(4) {
+      animation-delay: .09s
+    }
+
+    .log-entry:nth-child(5) {
+      animation-delay: .12s
+    }
 
     .log-entry:last-child {
       border-bottom: none
     }
 
-    .log-entry.good { color: var(--club) }
-    .log-entry.bad { color: var(--heart) }
-    .log-entry.neutral { color: var(--gold) }
-    .log-entry.enemy { color: var(--spade) }
+    .log-entry.good {
+      color: var(--club)
+    }
+
+    .log-entry.bad {
+      color: var(--heart)
+    }
+
+    .log-entry.neutral {
+      color: var(--gold)
+    }
+
+    .log-entry.enemy {
+      color: var(--spade)
+    }
 
     .overlay {
       position: fixed;
@@ -869,7 +894,9 @@
       margin-top: 1rem
     }
 
-    .continue-wrap { margin: .5rem 0 1.25rem }
+    .continue-wrap {
+      margin: .5rem 0 1.25rem
+    }
 
     .menu-actions {
       display: flex;
@@ -903,7 +930,11 @@
       margin: .5rem 0
     }
 
-    .sl { display: flex; align-items: center; gap: 4px }
+    .sl {
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
 
     .start-screen {
       text-align: center;
@@ -950,8 +981,13 @@
       animation: mode-stagger .65s cubic-bezier(.34, 1.2, .64, 1) forwards
     }
 
-    .mode-card:nth-child(1) { animation-delay: .28s }
-    .mode-card:nth-child(2) { animation-delay: .4s }
+    .mode-card:nth-child(1) {
+      animation-delay: .28s
+    }
+
+    .mode-card:nth-child(2) {
+      animation-delay: .4s
+    }
 
     .mode-card:hover {
       border-color: var(--gold);
@@ -960,7 +996,9 @@
       box-shadow: 0 12px 28px rgba(0, 0, 0, .35), 0 0 0 1px rgba(200, 168, 80, .2)
     }
 
-    .mode-card:active { transform: translateY(-2px) scale(1.01) }
+    .mode-card:active {
+      transform: translateY(-2px) scale(1.01)
+    }
 
     .mode-card h3 {
       color: var(--gold);
@@ -997,7 +1035,9 @@
       display: none
     }
 
-    .rules-box.open { display: block }
+    .rules-box.open {
+      display: block
+    }
 
     .rules-box h4 {
       color: var(--gold);
@@ -1010,7 +1050,11 @@
       animation: fade-rise .55s cubic-bezier(.34, 1.15, .64, 1) both
     }
 
-    .mod-list { display: flex; flex-direction: column; gap: 8px }
+    .mod-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
 
     .mod-line {
       display: flex;
@@ -1021,7 +1065,9 @@
       cursor: pointer
     }
 
-    .mod-line input { cursor: pointer }
+    .mod-line input {
+      cursor: pointer
+    }
 
     .info {
       margin-left: auto;
@@ -1030,7 +1076,9 @@
       position: relative
     }
 
-    .info:hover { color: var(--gold) }
+    .info:hover {
+      color: var(--gold)
+    }
 
     .info::after {
       content: attr(data-info);
@@ -1052,13 +1100,16 @@
       z-index: 10
     }
 
-    .info:hover::after { opacity: 1 }
+    .info:hover::after {
+      opacity: 1
+    }
   </style>
 
   <div class="game-wrap">
     <div id="start-screen" class="start-screen">
       <h1>SUITFALL</h1>
-      <p>A single-player card game of survival, arithmetic, and strategy.<br>Survive the falling suits as long as you can.</p>
+      <p>A single-player card game of survival, arithmetic, and strategy.<br>Survive the falling suits as long as you
+        can.</p>
       <div class="suit-legend" style="justify-content:center;margin-bottom:1.5rem">
         <span class="sl"><span style="color:var(--spade)">♠</span> Enemies</span>
         <span class="sl"><span style="color:var(--diamond)">♦</span> Attacks</span>
@@ -1070,25 +1121,30 @@
           <h3>Normal Mode</h3>
           <p>Resources are finite. Attacks, Assists &amp; Health are discarded permanently. Survive to Round 10.</p>
         </div>
-        <div class="mode-card" id="btn-infinite">
-          <h3>Infinite Mode</h3>
-          <p>All used cards return to the deck. Play endlessly until you fall.</p>
+        <div class="mode-card" id="btn-marathon">
+          <h3>Marathon Mode</h3>
+          <p>All used cards return to the deck. Play until you fail.</p>
         </div>
       </div>
-      <div class="continue-wrap"><button class="btn primary" id="btn-continue" style="display:none">Continue Saved Game</button></div>
+      <div class="continue-wrap"><button class="btn primary" id="btn-continue" style="display:none">Continue Saved
+          Game</button></div>
       <div class="menu-actions"><button class="btn" id="btn-mods">Mods</button></div>
       <span class="rules-toggle" id="rules-toggle">How to play ▾</span>
       <div class="rules-box" id="rules-box">
         <h4>The Basics</h4>
         Draw 5 cards per round. Each round has a Player Phase then an Enemy Phase.
         <h4>Player Phase</h4>
-        Defeat enemies (♠) by playing at least one Attack (♦), optionally boosted by Assists (♣), with a total value ≥ enemy health. Assists alone cannot defeat an enemy. Play Hearts (♥) to heal up to 20. Unused cards carry over to the next round.
+        Defeat enemies (♠) by playing at least one Attack (♦), optionally boosted by Assists (♣), with a total value ≥
+        enemy health. Assists alone cannot defeat an enemy. Play Hearts (♥) to heal up to 20. Unused cards carry over to
+        the next round.
         <h4>Enemy Phase</h4>
         Each undefeated enemy attacks you for its card value. Use Assists (♣) to block damage.
         <h4>Damage Rules</h4>
-        Total attack + assist must meet or exceed enemy health to defeat it — and must include at least one ♦. Partial damage is ignored. Excess does not carry over.
+        Total attack + assist must meet or exceed enemy health to defeat it — and must include at least one ♦. Partial
+        damage is ignored. Excess does not carry over.
         <h4>Win Condition</h4>
-        Survive. In Normal Mode, reaching Round 10 is a victory (Round 8 with Sprint mod). Infinite Mode ends only at HP 0.
+        Survive. In Normal Mode, reaching Round 10 is a victory (Round 8 with Sprint mod). Marathon Mode ends only at HP
+        0.
       </div>
     </div>
     <div id="game-screen" style="display:none"></div>
@@ -1100,7 +1156,9 @@
       <p id="end-msg"></p>
       <div class="big-num" id="end-rounds"></div>
       <p style="color:var(--text3);font-size:.8rem">rounds survived</p>
-      <div id="end-mods" style="margin-top:.75rem;font-size:.78rem;color:var(--text3);letter-spacing:.5px;font-family:'Cinzel',serif"></div>
+      <div id="end-mods"
+        style="margin-top:.75rem;font-size:.78rem;color:var(--text3);letter-spacing:.5px;font-family:'Cinzel',serif">
+      </div>
       <div style="margin-top:1.5rem"><button class="btn primary" id="btn-replay">Play Again</button></div>
     </div>
   </div>
@@ -1131,21 +1189,30 @@
   <div class="overlay" id="mods-overlay" style="display:none">
     <div class="modal" style="max-width:640px">
       <h2>MOD MENU</h2>
-      <p style="margin-bottom:.75rem">Enable optional modifiers. Major mods make the game much harder; minor mods make it slightly easier.</p>
+      <p style="margin-bottom:.75rem">Enable optional modifiers. Major mods make the game much harder; minor mods make
+        it slightly easier.</p>
       <div class="mods-box">
         <h3>Major Mods:</h3>
         <div class="mod-list">
-          <label class="mod-line"><input type="checkbox" id="mod-bl"> Backlash (BL) <span class="info" data-info="During the player phase, you take damage equal to ⌊(sum of ♦ used this round) / 2⌋.">🛈</span></label>
-          <label class="mod-line"><input type="checkbox" id="mod-vl"> Veil (VL) <span class="info" data-info="1 in 7 cards are hidden. Hidden cards show '?' and affect attack/defense unpredictably.">🛈</span></label>
-          <label class="mod-line"><input type="checkbox" id="mod-nd"> Needle (ND) <span class="info" data-info="Attack must exactly equal enemy value to defeat it. Otherwise it does nothing.">🛈</span></label>
-          <label class="mod-line"><input type="checkbox" id="mod-fh"> Faint Heart (FH) <span class="info" data-info="Max HP is reduced to 15.">🛈</span></label>
-          <label class="mod-line"><input type="checkbox" id="mod-hx"> Hex (HX) <span class="info" data-info="One random card in your hand is disabled each round. It cannot be selected or used.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-bl"> Backlash (BL) <span class="info"
+              data-info="During the player phase, you take damage equal to ⌊(sum of ♦ used this round) / 2⌋.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-vl"> Veil (VL) <span class="info"
+              data-info="1 in 7 cards are hidden. Hidden cards show '?' and affect attack/defense unpredictably.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-nd"> Needle (ND) <span class="info"
+              data-info="Attack must exactly equal enemy value to defeat it. Otherwise it does nothing.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-fh"> Faint Heart (FH) <span class="info"
+              data-info="Max HP is reduced to 15.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-hx"> Hex (HX) <span class="info"
+              data-info="One random card in your hand is disabled each round. It cannot be selected or used.">🛈</span></label>
         </div>
         <h3 style="margin-top:1rem">Minor Mods:</h3>
         <div class="mod-list">
-          <label class="mod-line"><input type="checkbox" id="mod-mh"> Meager Hands (MH) <span class="info" data-info="Draw 4 cards per round instead of 5.">🛈</span></label>
-          <label class="mod-line"><input type="checkbox" id="mod-sp"> Sprint (SP) <span class="info" data-info="In Normal Mode, the run ends after 8 rounds instead of 10.">🛈</span></label>
-          <label class="mod-line"><input type="checkbox" id="mod-hs"> Head Start (HS) <span class="info" data-info="No enemies appear in round 1. Round 2 is guaranteed to have at least one enemy.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-mh"> Meager Hands (MH) <span class="info"
+              data-info="Draw 4 cards per round instead of 5.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-sp"> Sprint (SP) <span class="info"
+              data-info="In Normal Mode, the run ends after 8 rounds instead of 10.">🛈</span></label>
+          <label class="mod-line"><input type="checkbox" id="mod-hs"> Head Start (HS) <span class="info"
+              data-info="No enemies appear in round 1. Round 2 is guaranteed to have at least one enemy.">🛈</span></label>
         </div>
       </div>
       <div class="modal-actions">
@@ -1212,7 +1279,7 @@
     }
 
     document.getElementById('btn-normal').addEventListener('click', function () { startGame('normal'); });
-    document.getElementById('btn-infinite').addEventListener('click', function () { startGame('infinite'); });
+    document.getElementById('btn-marathon').addEventListener('click', function () { startGame('marathon'); });
     document.getElementById('btn-continue').addEventListener('click', continueSavedGame);
     document.getElementById('btn-mods').addEventListener('click', openModsModal);
     document.getElementById('btn-mods-close').addEventListener('click', closeModsModal);
@@ -1380,7 +1447,12 @@
 
     function consumeCard(c) {
       G.hand = G.hand.filter(function (h) { return h.id !== c.id; });
-      if (G.mode === 'normal') G.discard.push(c);
+      if (G.mode === 'normal') {
+        G.discard.push(c);
+      } else {
+        c.hidden = false;
+        insertMiddle(G.deck, [c]);
+      }
     }
 
     function winRound() { return (G.mods && G.mods.SP) ? 8 : 10; }
@@ -1415,7 +1487,9 @@
 
       var drawn = [];
       var dc = G.drawCount || 5;
-      for (var i = 0; i < dc && G.deck.length > 0; i++) drawn.push(G.deck.pop());
+      // How many to draw: in marathon, top up hand to drawCount; in normal, always draw drawCount
+      var toDraw = (G.mode === 'marathon') ? Math.max(0, dc - G.hand.length) : dc;
+      for (var i = 0; i < toDraw && G.deck.length > 0; i++) drawn.push(G.deck.pop());
 
       if (firstRound && G.mods && G.mods.HS) {
         // Head Start round 1: strip all spades from the initial draw and replace
@@ -1468,13 +1542,77 @@
         }
       }
 
-      var newEnemies = drawn.filter(function (c) { return c.s === 's'; }).map(function (c) {
-        return { s: c.s, v: c.v, hidden: !!c.hidden, id: c.s + c.v + '_' + Math.random(), defeated: false };
-      });
-      var newHandCards = drawn.filter(function (c) { return c.s !== 's'; });
+      var newEnemies = [];
+      var newHandCards = [];
+
+      if (G.mode === 'marathon') {
+        var baseChance = 1.5;
+        var scalar = (2 - baseChance) / 99;
+        var enemyQuota = baseChance + (G.round - 1) * scalar;
+        var guaranteed = Math.floor(enemyQuota);
+        var bonusChance = enemyQuota - guaranteed;
+        var enemyCount = (G.mods && G.mods.HS && firstRound)
+          ? 0
+          : Math.min(guaranteed + (Math.random() < bonusChance ? 1 : 0), dc);
+        // Draw dc non-spade cards for the hand
+        var nonSpadeDrawn = drawn.filter(function (c) { return c.s !== 's'; });
+        // Return any spades that slipped through back to the deck
+        drawn.filter(function (c) { return c.s === 's'; }).forEach(function (c) { insertMiddle(G.deck, [c]); });
+        // Top up to dc non-spade cards if needed
+        var attempts = 0;
+        while (nonSpadeDrawn.length < dc && G.deck.length > 0 && attempts < 52) {
+          var c = G.deck.pop();
+          if (c.s === 's') { insertMiddle(G.deck, [c]); } else { nonSpadeDrawn.push(c); }
+          attempts++;
+        }
+
+        // Replace random hand slots with enemies
+        var handSlots = nonSpadeDrawn.slice(); // copy of the 5 cards
+        var availableSlots = [0, 1, 2, 3, 4].slice(0, handSlots.length);
+        // Shuffle slot indices so replacements are random
+        for (var i = availableSlots.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = availableSlots[i]; availableSlots[i] = availableSlots[j]; availableSlots[j] = t;
+        }
+        var carried = G.enemies.filter(function (e) { return !e.defeated; });
+        for (var i = 0; i < enemyCount && i < availableSlots.length; i++) {
+          var slot = availableSlots[i];
+          var replaced = handSlots[slot];
+          // Return the replaced card to the deck
+          if (replaced) { replaced.hidden = false; insertMiddle(G.deck, [replaced]); }
+          var usedVals = newEnemies.map(function (e) { return e.v; })
+            .concat(carried.map(function (e) { return e.v; }));
+          var v, vAttempts = 0;
+          do {
+            v = Math.floor(Math.random() * 13) + 1;
+            vAttempts++;
+          } while (usedVals.indexOf(v) >= 0 && vAttempts < 13);
+          newEnemies.push({ s: 's', v: v, hidden: false, id: 's' + v + '_' + Math.random(), defeated: false });
+          handSlots[slot] = null;
+        }
+
+        // Whatever remains in hand slots goes to hand
+        for (var i = 0; i < handSlots.length; i++) {
+          if (handSlots[i]) newHandCards.push(handSlots[i]);
+        }
+      } else {
+        for (var i = 0; i < drawn.length; i++) {
+          var c = drawn[i];
+          if (c.s === 's') {
+            newEnemies.push({ s: c.s, v: c.v, hidden: !!c.hidden, id: c.s + c.v + '_' + Math.random(), defeated: false });
+          } else {
+            newHandCards.push(c);
+          }
+        }
+      }
+
       var carried = G.enemies.filter(function (e) { return !e.defeated; });
       G.enemies = carried.concat(newEnemies);
-      G.hand = G.hand.concat(newHandCards);
+      if (G.mode === 'marathon') {
+        G.hand = G.hand.concat(newHandCards);
+      } else {
+        G.hand = G.hand.concat(newHandCards);
+      }
       if (G.autoSort) { sortHand(); G._animateReorder = true; }
 
       G.hexDisabledCardId = null;
