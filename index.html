@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Suitfall</title>
+  <title>Brevouned</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 
@@ -545,7 +545,7 @@
 
     .card.unavailable.card--new {
       animation: card-deal 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both;
-      opacity: 0.35;
+      opacity: 0.35
     }
 
     .card.unavailable:hover {
@@ -1107,7 +1107,7 @@
 
   <div class="game-wrap">
     <div id="start-screen" class="start-screen">
-      <h1>SUITFALL</h1>
+      <h1>BREVOUNED</h1>
       <p>A single-player card game of survival, arithmetic, and strategy.<br>Survive the falling suits as long as you
         can.</p>
       <div class="suit-legend" style="justify-content:center;margin-bottom:1.5rem">
@@ -1123,7 +1123,7 @@
         </div>
         <div class="mode-card" id="btn-marathon">
           <h3>Marathon Mode</h3>
-          <p>All used cards return to the deck. Play until you fail.</p>
+          <p>All used cards return to the deck. Play until you fail. Enemy pressure scales with your hand strength.</p>
         </div>
       </div>
       <div class="continue-wrap"><button class="btn primary" id="btn-continue" style="display:none">Continue Saved
@@ -1142,6 +1142,10 @@
         <h4>Damage Rules</h4>
         Total attack + assist must meet or exceed enemy health to defeat it — and must include at least one ♦. Partial
         damage is ignored. Excess does not carry over.
+        <h4>Marathon Mode — Enemy Scaling</h4>
+        At least 1 enemy always appears. More enemies spawn based on the total value of non-spade cards in your hand:
+        stronger hand = more enemies. Weak hand (~15 total) → 1 enemy. Medium hand (~30) → 2 enemies. Strong hand (~45+)
+        → 3 or more.
         <h4>Win Condition</h4>
         Survive. In Normal Mode, reaching Round 10 is a victory (Round 8 with Sprint mod). Marathon Mode ends only at HP
         0.
@@ -1227,8 +1231,8 @@
     var SUIT_ORDER = { d: 0, c: 1, h: 2 };
     var pendingConfirmAction = null;
     var pendingConfirmCancelAction = null;
-    var SAVE_KEY = 'suitfall_saved_game_v1';
-    var MODS_KEY = 'suitfall_mods_v1';
+    var SAVE_KEY = 'BREVOUNED_saved_game_v1';
+    var MODS_KEY = 'BREVOUNED_mods_v1';
     var dragProxyEl = null;
     var dragProxyPixel = null;
 
@@ -1457,6 +1461,28 @@
 
     function winRound() { return (G.mods && G.mods.SP) ? 8 : 10; }
 
+    // --- Marathon enemy count: scales with hand strength (sum of non-spade values in current hand) ---
+    // At least 1 enemy guaranteed. Formula: 1 + floor(handStrength / THRESHOLD)
+    // THRESHOLD = 15 means: hand strength 0-14 → 1 enemy, 15-29 → 2, 30-44 → 3, 45+ → 4 (capped at available slots)
+    var MARATHON_ENEMY_THRESHOLD = 155;
+
+    function marathonEnemyCount(currentHand, maxSlots, isFirstRoundHS) {
+      if (isFirstRoundHS) return 0;
+      var strength = 0;
+      var suitWeight = { d: 5, c: 2, h: 1 };
+      for (var i = 0; i < currentHand.length; i++) {
+        var c = currentHand[i];
+        if (c.s === 's') continue;
+        if (c.hidden) {
+          strength += 7 * 1; // hidden: assume neutral weight
+        } else {
+          strength += c.v * (suitWeight[c.s] || 1);
+        }
+      }
+      var count = 1 + Math.floor(strength / MARATHON_ENEMY_THRESHOLD);
+      return Math.min(count, maxSlots);
+    }
+
     function initGame(mode, mods) {
       mods = mods || defaultMods();
       var maxHp = mods.FH ? 15 : 20;
@@ -1487,35 +1513,20 @@
 
       var drawn = [];
       var dc = G.drawCount || 5;
-      // How many to draw: in marathon, top up hand to drawCount; in normal, always draw drawCount
-      var toDraw = (G.mode === 'marathon') ? Math.max(0, dc - G.hand.length) : dc;
+      var toDraw = dc;
       for (var i = 0; i < toDraw && G.deck.length > 0; i++) drawn.push(G.deck.pop());
 
       if (firstRound && G.mods && G.mods.HS) {
-        // Head Start round 1: strip all spades from the initial draw and replace
-        // them one-for-one with non-spade cards so the player always gets exactly
-        // drawCount hand cards and zero enemies on round 1.
         var spades = drawn.filter(function (c) { return c.s === 's'; });
         drawn = drawn.filter(function (c) { return c.s !== 's'; });
-
-        // Return stripped spades to a random middle position in the deck.
         insertMiddle(G.deck, spades);
-
-        // Draw replacements, skipping any additional spades we happen to hit
-        // (those get reinserted into the middle so they surface naturally later).
         var attempts = 0;
         while (drawn.length < dc && G.deck.length > 0 && attempts < 52) {
           var c = G.deck.pop();
-          if (c.s === 's') {
-            insertMiddle(G.deck, [c]);
-          } else {
-            drawn.push(c);
-          }
+          if (c.s === 's') { insertMiddle(G.deck, [c]); } else { drawn.push(c); }
           attempts++;
         }
-
       } else if (firstRound) {
-        // Normal first-round guarantee: reshuffle until at least one spade appears.
         var attempts = 0;
         while (!drawn.some(function (c) { return c.s === 's'; }) && G.deck.length > 0 && attempts < 10) {
           for (var k = 0; k < drawn.length; k++) G.deck.push(drawn[k]);
@@ -1525,7 +1536,6 @@
         }
       }
 
-      // Head Start: guarantee at least one enemy on round 2.
       if (!firstRound && G.round === 2 && G.mods && G.mods.HS) {
         var attempts = 0;
         while (!drawn.some(function (c) { return c.s === 's'; }) && G.deck.length > 0 && attempts < 10) {
@@ -1546,39 +1556,43 @@
       var newHandCards = [];
 
       if (G.mode === 'marathon') {
-        var baseChance = 1.5;
-        var scalar = (2 - baseChance) / 99;
-        var enemyQuota = baseChance + (G.round - 1) * scalar;
-        var guaranteed = Math.floor(enemyQuota);
-        var bonusChance = enemyQuota - guaranteed;
-        var enemyCount = (G.mods && G.mods.HS && firstRound)
-          ? 0
-          : Math.min(guaranteed + (Math.random() < bonusChance ? 1 : 0), dc);
-        // Draw dc non-spade cards for the hand
+        // --- NEW: hand-strength-based enemy scaling ---
+        // currentHand is the hand BEFORE this draw (cards the player is carrying over)
+        // We include newly drawn non-spade cards too, since those represent the full hand pool
+        // First collect all non-spade drawn cards
         var nonSpadeDrawn = drawn.filter(function (c) { return c.s !== 's'; });
-        // Return any spades that slipped through back to the deck
+        // Return any spades back to deck
         drawn.filter(function (c) { return c.s === 's'; }).forEach(function (c) { insertMiddle(G.deck, [c]); });
-        // Top up to dc non-spade cards if needed
+        // Top up non-spade draws if needed
         var attempts = 0;
-        while (nonSpadeDrawn.length < dc && G.deck.length > 0 && attempts < 52) {
+        while (nonSpadeDrawn.length < toDraw && G.deck.length > 0 && attempts < 52) {
           var c = G.deck.pop();
           if (c.s === 's') { insertMiddle(G.deck, [c]); } else { nonSpadeDrawn.push(c); }
           attempts++;
         }
 
-        // Replace random hand slots with enemies
-        var handSlots = nonSpadeDrawn.slice(); // copy of the 5 cards
-        var availableSlots = [0, 1, 2, 3, 4].slice(0, handSlots.length);
-        // Shuffle slot indices so replacements are random
-        for (var i = availableSlots.length - 1; i > 0; i--) {
+        // Build the projected full hand (existing hand + new non-spade draws)
+        var projectedHand = G.hand.concat(nonSpadeDrawn);
+
+        // Determine enemy count based on projected hand strength
+        var isFirstRoundHS = firstRound && G.mods && G.mods.HS;
+        var maxEnemySlots = Math.min(nonSpadeDrawn.length, dc); // can't take more than available draws
+        var enemyCount = marathonEnemyCount(projectedHand, maxEnemySlots, isFirstRoundHS);
+        // Guarantee at least 1 enemy every round except Head Start round 1
+        if (!isFirstRoundHS) enemyCount = Math.max(1, enemyCount);
+
+        // Shuffle the non-spade pool and replace 'enemyCount' slots with enemies
+        var handPool = nonSpadeDrawn.slice();
+        // Shuffle for random replacement
+        for (var i = handPool.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
-          var t = availableSlots[i]; availableSlots[i] = availableSlots[j]; availableSlots[j] = t;
+          var t = handPool[i]; handPool[i] = handPool[j]; handPool[j] = t;
         }
+
         var carried = G.enemies.filter(function (e) { return !e.defeated; });
-        for (var i = 0; i < enemyCount && i < availableSlots.length; i++) {
-          var slot = availableSlots[i];
-          var replaced = handSlots[slot];
-          // Return the replaced card to the deck
+        for (var i = 0; i < enemyCount && i < handPool.length; i++) {
+          var replaced = handPool[i];
+          // Return replaced card to deck
           if (replaced) { replaced.hidden = false; insertMiddle(G.deck, [replaced]); }
           var usedVals = newEnemies.map(function (e) { return e.v; })
             .concat(carried.map(function (e) { return e.v; }));
@@ -1588,14 +1602,16 @@
             vAttempts++;
           } while (usedVals.indexOf(v) >= 0 && vAttempts < 13);
           newEnemies.push({ s: 's', v: v, hidden: false, id: 's' + v + '_' + Math.random(), defeated: false });
-          handSlots[slot] = null;
+          handPool[i] = null;
         }
 
-        // Whatever remains in hand slots goes to hand
-        for (var i = 0; i < handSlots.length; i++) {
-          if (handSlots[i]) newHandCards.push(handSlots[i]);
+        // Remaining pool goes to hand
+        for (var i = 0; i < handPool.length; i++) {
+          if (handPool[i]) newHandCards.push(handPool[i]);
         }
+
       } else {
+        // Normal mode: spades from draw become enemies, rest go to hand
         for (var i = 0; i < drawn.length; i++) {
           var c = drawn[i];
           if (c.s === 's') {
@@ -1608,11 +1624,7 @@
 
       var carried = G.enemies.filter(function (e) { return !e.defeated; });
       G.enemies = carried.concat(newEnemies);
-      if (G.mode === 'marathon') {
-        G.hand = G.hand.concat(newHandCards);
-      } else {
-        G.hand = G.hand.concat(newHandCards);
-      }
+      G.hand = G.hand.concat(newHandCards);
       if (G.autoSort) { sortHand(); G._animateReorder = true; }
 
       G.hexDisabledCardId = null;
@@ -1625,7 +1637,7 @@
         }
       }
 
-      addLog('Round ' + G.round + ': drew ' + newEnemies.length + ' new enem' + (newEnemies.length === 1 ? 'y' : 'ies') + (carried.length > 0 ? ' + ' + carried.length + ' carried over' : '') + '.');
+      addLog('Round ' + G.round + ': ' + newEnemies.length + ' new enem' + (newEnemies.length === 1 ? 'y' : 'ies') + (carried.length > 0 ? ' + ' + carried.length + ' carried' : '') + '.');
     }
 
     function moveCardInHand(dragId, targetId) {
@@ -1919,7 +1931,7 @@
         ? ' <span style="font-size:.7rem;color:var(--text3)">(' + G.round + '/' + wr + ')</span>'
         : '';
 
-      gs.innerHTML = '<div class="title-bar"><h1>SUITFALL</h1><p>ROUND-BASED CARD SURVIVAL</p></div>'
+      gs.innerHTML = '<div class="title-bar"><h1>BREVOUNED</h1><p>ROUND-BASED CARD SURVIVAL</p></div>'
         + '<div class="hud">'
         + '<div class="hp-bar-wrap"><div class="hp-label"><span>HP</span><span>' + G.hp + ' / ' + mh + '</span></div>'
         + '<div class="hp-bar"><div class="hp-fill" style="width:' + hpPct + '%"></div></div></div>'
